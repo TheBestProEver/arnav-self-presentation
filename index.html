@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Inheritance: Weber's Protestant Ethic</title>
+<meta name="description" content="A presentation and class game on Max Weber's Protestant Ethic: Kalberg's introduction and Chapter 1.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IM+Fell+English:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ---------- Era palettes: the design itself "secularizes" as the family moves through time ---------- */
+:root{
+  color-scheme: light;
+  --f-fell: "IM Fell English", "Iowan Old Style", Georgia, serif;
+  --f-caslon: "Libre Caslon Text", "Baskerville", Georgia, serif;
+  --f-steel: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  /* default = "now" (light steel) */
+  --bg:#E3E6E8; --ink:#1F2428; --muted:#5B646B; --rule:#AEB5BA; --accent:#3E5C76; --panel:#D5DADD;
+  --display: var(--f-steel); --body: var(--f-steel); --stretch: 80%; --dweight: 760;
+}
+body[data-era="candle"]{ color-scheme: dark;
+  --bg:#241C15; --ink:#E9DDC4; --muted:#A8977A; --rule:#4A3B2C; --accent:#C9A44C; --panel:#2E241B;
+  --display: var(--f-fell); --body: var(--f-caslon); --stretch: 100%; --dweight: 400; }
+body[data-era="ledger"]{
+  --bg:#E2DFD3; --ink:#23253A; --muted:#5D5A66; --rule:#B04A43; --accent:#A8423B; --panel:#D6D2C4;
+  --display: var(--f-fell); --body: var(--f-caslon); --stretch: 100%; --dweight: 400; }
+body[data-era="broadside"]{
+  --bg:#E7E2D4; --ink:#191919; --muted:#555049; --rule:#1F3A5F; --accent:#1F3A5F; --panel:#DAD4C3;
+  --display: var(--f-caslon); --body: var(--f-caslon); --stretch: 100%; --dweight: 700; }
+body[data-era="steel"]{ color-scheme: dark;
+  --bg:#2B3035; --ink:#CDD3D8; --muted:#7E878F; --rule:#454D54; --accent:#9AA3AB; --panel:#343A40;
+  --display: var(--f-steel); --body: var(--f-steel); --stretch: 70%; --dweight: 700; }
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme: dark; --bg:#1D2226; --ink:#DCE1E5; --muted:#8E98A0; --rule:#3A434A; --accent:#8FB0CC; --panel:#262C31; }
+  body[data-era="ledger"]{ --bg:#1E1F2A; --ink:#E0DCCF; --muted:#9A96A3; --rule:#C0605A; --accent:#D2736B; --panel:#272836; }
+  body[data-era="broadside"]{ --bg:#17191C; --ink:#E7E2D4; --muted:#A19C90; --rule:#6F8DB3; --accent:#8FAAD0; --panel:#22252A; }
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);transition:background-color .5s ease,color .5s ease}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center center}
+
+section{position:absolute;inset:0;padding:72px 112px;display:none;flex-direction:column}
+section.active{display:flex}
+section[data-ledger]{padding-top:60px;padding-bottom:230px}
+section[data-ledger] h2{font-size:54px;max-width:34ch;margin-bottom:24px}
+section[data-ledger].disc h2{font-size:48px;max-width:40ch}
+section[data-ledger].disc li{font-size:24px}
+section[data-ledger] .year{font-size:120px}
+section[data-ledger].scene p{font-size:28px;max-width:62ch}
+section[data-ledger] blockquote{font-size:28px;max-width:56ch}
+.notes{display:none}
+
+h1,h2{font-family:var(--display);font-weight:var(--dweight);font-stretch:var(--stretch);margin:0;line-height:1.04;letter-spacing:-.005em}
+h1{font-size:200px;letter-spacing:-.02em}
+h2{font-size:64px;max-width:24ch;margin-bottom:34px}
+p,li,td,th,button{font-family:var(--body)}
+p{font-size:31px;line-height:1.45;margin:0 0 20px;max-width:56ch}
+.small{font-size:24px;color:var(--muted)}
+.lede{font-size:36px;max-width:44ch}
+em{font-style:italic}
+
+.step{opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease}
+.step.on{opacity:1;transform:none}
+
+/* title */
+.title-wrap{margin-top:auto;margin-bottom:auto}
+.title-wrap p{font-size:34px;max-width:40ch;color:var(--muted)}
+.title-foot{display:flex;justify-content:space-between;align-items:flex-end;font-size:22px;color:var(--muted)}
+.keys span{display:inline-block;border:1.5px solid var(--rule);border-radius:4px;padding:2px 9px;margin:0 6px 0 18px;color:var(--ink)}
+
+/* hands up */
+.hands{list-style:none;padding:0;margin:0}
+.hands li{font-size:40px;line-height:1.3;padding:20px 0;border-top:1.5px solid var(--rule);max-width:48ch}
+.hands li:last-child{border-bottom:1.5px solid var(--rule)}
+
+/* argument chain (a real sequence) */
+.chain{list-style:none;counter-reset:c;padding:0;margin:0;display:grid;gap:18px}
+.chain li{counter-increment:c;display:grid;grid-template-columns:64px 1fr;font-size:27px;line-height:1.4;max-width:68ch}
+.chain li::before{content:counter(c);font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:40px;color:var(--accent);line-height:1}
+.chain b{font-weight:700}
+
+/* two-column contrast */
+.contrast{display:grid;grid-template-columns:1fr 1.25fr;gap:72px;margin-top:8px}
+.contrast h3{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:38px;margin:0 0 14px}
+.contrast .no h3{color:var(--muted);text-decoration:line-through;text-decoration-thickness:3px}
+.contrast p{font-size:29px}
+.rule-top{border-top:2px solid var(--rule);padding-top:24px;margin-top:30px}
+
+/* tables */
+table{border-collapse:collapse;width:100%}
+.tbl th{text-align:left;font-weight:700;font-size:22px;color:var(--muted);padding:0 18px 12px 0;border-bottom:2px solid var(--rule)}
+.tbl td{font-size:25px;line-height:1.35;padding:13px 18px 13px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.tbl td:first-child{font-weight:700;width:30%}
+
+/* game: scenes */
+.when{display:flex;align-items:baseline;gap:28px;margin-bottom:6px}
+.year{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:150px;line-height:.9;color:var(--accent)}
+.place{font-size:28px;color:var(--muted)}
+.scene p{font-size:30px}
+blockquote{margin:12px 0 0;padding:0 0 0 26px;border-left:4px solid var(--accent);font-size:32px;line-height:1.4;max-width:46ch;font-style:italic}
+blockquote cite{display:block;font-style:normal;font-size:22px;color:var(--muted);margin-top:8px}
+
+/* game: choices */
+.choices{display:grid;gap:14px;max-width:1300px}
+.opt{all:unset;cursor:pointer;display:grid;grid-template-columns:56px 1fr;align-items:center;font-family:var(--body);font-size:27px;line-height:1.3;padding:11px 22px;border:2px solid var(--rule);border-radius:6px;background:var(--panel);color:var(--ink);transition:border-color .2s,background-color .2s}
+.opt .k{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:34px;color:var(--accent)}
+.opt:hover{border-color:var(--accent)}
+.opt:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.opt.picked{border-color:var(--accent);background:transparent}
+.opt.locked{opacity:.55;cursor:not-allowed}
+.opt.locked .k::after{content:"";}
+.opt.shake{animation:shake .38s}
+@keyframes shake{20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+.opt .why{display:none}
+.fb{margin-top:18px;font-size:24px;line-height:1.45;max-width:72ch;min-height:2em;border-left:4px solid var(--accent);padding-left:22px}
+.fb:empty{border-left-color:transparent}
+.fb b{font-weight:700}
+
+/* discussion */
+.disc .count{font-size:24px;color:var(--muted);margin-bottom:18px}
+.disc h2{font-size:58px;max-width:30ch;line-height:1.12}
+.disc .hint-head{font-size:22px;color:var(--muted);margin:6px 0 10px}
+.disc ul{margin:0;padding:0 0 0 1.1em}
+.disc li{font-size:26px;line-height:1.42;margin-bottom:8px;max-width:68ch}
+
+/* the seal */
+.seal{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 38% 34%,#B1413A,#7D1F1B 62%,#5E1512);box-shadow:inset -6px -8px 0 rgba(0,0,0,.18);display:grid;place-items:center;color:#F1D9C6;font-family:var(--f-fell);font-size:66px;flex:none}
+.sealrow{display:flex;gap:40px;align-items:center}
+.seal.broken{background:none;box-shadow:none;border:3px dashed var(--rule);color:var(--muted)}
+#decreeOut{font-family:var(--f-fell);font-size:120px;line-height:1;margin:6px 0 18px;color:var(--accent)}
+.btn{all:unset;cursor:pointer;font-family:var(--body);font-size:28px;padding:14px 26px;border:2px solid var(--accent);border-radius:6px;color:var(--ink)}
+.btn[hidden]{display:none}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+/* the family ledger */
+#ledger{position:absolute;left:112px;right:112px;bottom:34px;height:172px;border-top:3px double var(--rule)}
+#ledger[hidden]{display:none}
+#ledger table{table-layout:fixed}
+#ledger th{font-family:var(--f-steel);font-weight:600;font-size:16px;color:var(--muted);text-align:left;padding:8px 12px 4px 0}
+#ledger td{font-size:20px;padding:4px 12px 4px 0;border-bottom:1px solid var(--rule);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:31px}
+#ledger tr.empty td{color:var(--rule)}
+#ledger tr.new td{animation:ink .9s ease}
+@keyframes ink{from{color:var(--accent)}}
+#ledger .r0 td,#ledger .r1 td{font-family:var(--f-fell);font-size:22px}
+#ledger .r2 td{font-family:var(--f-caslon)}
+#ledger .r3 td{font-family:var(--f-steel);font-stretch:75%}
+#ledger col.c1{width:14%} #ledger col.c2{width:8%} #ledger col.c3{width:36%} #ledger col.c4{width:42%}
+
+/* the year overlay: the one orchestrated motion */
+#yr{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);opacity:0;pointer-events:none;z-index:20}
+#yr.show{opacity:1}
+#yr.fade{opacity:0;transition:opacity .45s ease}
+#yrNum{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:min(34vw,60vh);color:var(--accent);font-variant-numeric:tabular-nums;line-height:1}
+
+/* presenter chrome */
+#corner{position:fixed;right:18px;bottom:12px;font-family:var(--f-steel);font-size:13px;color:var(--muted);z-index:5}
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;background:var(--panel);color:var(--ink);font-family:var(--f-steel);font-size:16px;line-height:1.5;padding:16px 26px 20px;border-top:2px solid var(--rule);z-index:10}
+#notes[hidden]{display:none}
+#notes p{font-size:16px;max-width:110ch;margin:0 0 8px;font-family:var(--f-steel)}
+#notes .t{font-weight:700}
+
+@media (prefers-reduced-motion: reduce){
+  .step,.opt,body{transition:none} .opt.shake{animation:none} #ledger tr.new td{animation:none}
+}
+</style>
+</head>
+<body data-era="now">
+<div id="stage">
+
+<!-- ===================== OPENING: now ===================== -->
+<section data-era="now" data-year="2026">
+  <div class="title-wrap">
+    <h1>The Inheritance</h1>
+    <p>Max Weber, <em>The Protestant Ethic and the Spirit of Capitalism</em>: Kalberg's introduction and Chapter 1, plus a game about one family across four centuries.</p>
+  </div>
+  <div class="title-foot">
+    <span>Presented by Arnav Rai</span>
+    <span class="keys"><span>→</span>next<span>N</span>notes<span>S</span>short version<span>F</span>full screen</span>
+  </div>
+  <aside class="notes"><p class="t">0:20</p><p>Quick intro. Tell the room there's a game in the middle, so they'll be voting with their hands. Press S before you start if you only have about 12 minutes; it skips the slides marked optional.</p></aside>
+</section>
+
+<section data-era="now" data-year="2026">
+  <h2>Hands up if…</h2>
+  <ul class="hands">
+    <li class="step">…one of the first things you asked your roommate was their major, or what they want to do.</li>
+    <li class="step">…you ate lunch while working at least once this week.</li>
+    <li class="step">…career prospects were part of why you chose your major.</li>
+  </ul>
+  <p class="step lede" style="margin-top:34px">Weber thinks habits like these have a family tree. Today we trace it.</p>
+  <aside class="notes"><p class="t">1:00</p><p>Reveal one line at a time and actually count hands. Kalberg's introduction opens with this: Americans compete with South Korea for the most hours worked, Europeans work about two-thirds as many, and in the US it's normal to ask about work right after meeting someone (his note 4). Weber would read all of this as a secular legacy of ascetic Protestantism.</p></aside>
+</section>
+
+<section data-era="now" data-year="2026">
+  <h2>Chapter 1: a pattern that won't go away</h2>
+  <ol class="chain">
+    <li class="step"><span><b>The pattern.</b> In Weber's Germany, capital owners, managers and skilled technical workers were overwhelmingly Protestant.</span></li>
+    <li class="step"><span><b>First guess: inherited wealth.</b> Rich trading cities turned Protestant in the 1500s and passed their money down. True, but only partly.</span></li>
+    <li class="step"><span><b>Money doesn't explain choices.</b> Catholic graduates chose classical schools over technical and business tracks. Catholic journeymen stayed in their crafts while Protestants moved into factories and management.</span></li>
+    <li class="step"><span><b>The minority rule fails.</b> Shut-out minorities usually pour into business: Huguenots, Quakers, Jews, Poles in Prussia. German Catholics didn't. Protestants did, as majority or minority.</span></li>
+    <li class="step"><span><b>So the cause is inside the religion.</b> Upbringing passes on a "learned inner quality" that steers what work people choose.</span></li>
+  </ol>
+  <aside class="notes"><p class="t">1:30</p><p>This is Weber's method in miniature: propose an explanation, test it against a comparison, throw it out if it fails. The school-track evidence comes from his student Martin Offenbacher's study of Baden (Kalberg p. 22). Point 5: Weber says the cause must be sought "mainly" in the religions' enduring inner character, not only in their political situation (pp. 70–71).</p></aside>
+</section>
+
+<section data-era="now" data-year="2026">
+  <h2>The strange part</h2>
+  <p class="lede">The Reformation didn't loosen religion's grip on people. It swapped a lenient Catholic Church for Calvinist control over every corner of life.</p>
+  <p class="lede step">And the richest, most commercial middle classes of Europe didn't just accept it. They defended it.</p>
+  <p class="step rule-top">So the easy story, pious Catholics versus worldly Protestants, is wrong. Calvinists were severe, intensely pious, and the best at business. Weber asks whether that piety and capitalism share an <em>inner affinity</em>.</p>
+  <aside class="notes"><p class="t">1:00</p><p>Chapter 1, pp. 68–75. The Catholic adage was "punish the heretic, be lenient with the sinner." Calvinist Geneva, Scotland and New England would feel unbearable to us. Carlyle called the middle class's defense of Puritanism "the last of our heroisms." Montesquieu said the English led the world in piety, commerce and freedom; Weber asks whether those are connected.</p></aside>
+</section>
+
+<section data-era="now" data-year="2026">
+  <h2>What Weber is actually asking</h2>
+  <div class="contrast">
+    <div class="no">
+      <h3>Why does capitalism exist?</h3>
+      <p>It has always existed: moneylenders, merchants, speculators and slave traders calculating profit in every civilization.</p>
+    </div>
+    <div>
+      <h3>Where did the spirit of modern capitalism come from?</h3>
+      <p>Work as a duty and an end in itself. Making more and more money while refusing to enjoy it. Wealth as proof you're good at your calling.</p>
+    </div>
+  </div>
+  <p class="step rule-top">Its opposite is <b>traditionalism</b>: work only enough to live the way you're used to. For Weber, that's the natural default. The spirit of capitalism had to be taught.</p>
+  <aside class="notes"><p class="t">1:15</p><p>Kalberg's most important point (pp. 14–17): Weber distinguishes capitalism from <em>modern</em> capitalism, and he isn't explaining either one. He's explaining the <em>spirit</em>, the ethic. Franklin had the spirit while running an old-fashioned handicraft print shop; Renaissance Florence had big capitalism without the spirit. So form and ethic can exist apart, and capitalism didn't produce its own spirit.</p></aside>
+</section>
+
+<section data-era="now" data-year="2026" data-optional>
+  <h2>Explanations Weber rejects</h2>
+  <table class="tbl">
+    <thead><tr><th>The explanation</th><th>Weber's objection</th></tr></thead>
+    <tbody>
+      <tr><td>Greed got stronger</td><td class="step">Greed is everywhere, in every era. Modern capitalism actually needs greed <em>restrained</em>.</td></tr>
+      <tr><td>Great entrepreneurs</td><td class="step">They exist everywhere too. Individuals can't break traditionalism; whole groups have to.</td></tr>
+      <tr><td>Sombart: general progress</td><td class="step">Spheres develop unevenly. England's law was less rational than Rome's, yet its economy led.</td></tr>
+      <tr><td>Marx: class interest</td><td class="step">Franklin's ethos came before a bourgeoisie existed, and it came from middle-class upstarts.</td></tr>
+      <tr><td>Technology, silver, cities</td><td class="step">China, India and the ancient world had them, without modern capitalism.</td></tr>
+    </tbody>
+  </table>
+  <aside class="notes"><p class="t">1:15 (optional)</p><p>Kalberg pp. 17–21. Weber's alternative is to bring culture and values into the debate as real causes. He also rejected Sombart's claim that Jews carried modern capitalism, calling their economic ethic traditional and speculative. Skip this slide in the short version and mention one example verbally.</p></aside>
+</section>
+
+<!-- ===================== THE GAME ===================== -->
+<section data-era="now" data-year="2026">
+  <h2>The Inheritance: a game</h2>
+  <p class="lede">You are one family, the Ashworths, over four centuries. Each generation faces a choice. Vote with your hands: A, B or C.</p>
+  <p>The family ledger at the bottom will record what each Ashworth did and why.</p>
+  <div class="sealrow step rule-top">
+    <div class="seal" aria-hidden="true">A</div>
+    <p style="margin:0">Before the first Ashworth was born, God already decided whether he was saved. The decree is sealed. Nothing you choose will change it.</p>
+  </div>
+  <aside class="notes"><p class="t">0:30</p><p>Set it up fast. The seal is random each time the page loads, and it's revealed at the end. Presenter: when the room votes, click the option with the most hands. You can click the others afterward to show their feedback too. Keys A, B, C also work.</p></aside>
+</section>
+
+<!-- Generation 1 -->
+<section data-era="candle" data-year="1563" data-ledger class="scene">
+  <div class="when"><span class="year">1563</span><span class="place">Colchester, England</span></div>
+  <h2>Thomas Ashworth, wool trader</h2>
+  <p>Thomas is back from exile in Calvin's Geneva. The sermon is the same every week: before the world began, God chose a few people for salvation and condemned the rest. No priest, no confession, no good deed can change the decree, and God's reasons are beyond us.</p>
+  <p class="step">Thomas has no way of knowing which he is. Weber says believers felt a loneliness we can barely imagine.</p>
+  <aside class="notes"><p class="t">0:45</p><p>Calvin's three pillars (Kalberg pp. 25–26): an all-powerful, distant God; double predestination; and the world existing only to glorify God. Abolishing confession matters: there's no longer any way to get relief.</p></aside>
+</section>
+
+<section data-era="candle" data-year="1563" data-ledger>
+  <h2>Thomas can't sleep. What does he do?</h2>
+  <div class="choices">
+    <button class="opt"><span class="k">A</span><span>Confess to a priest and do penance</span>
+      <span class="why">There's no one to confess to. <b>Calvinism abolished confession.</b> A medieval Catholic could balance out sins with penance and good works, a "series of isolated actions." Thomas can't.</span></button>
+    <button class="opt"><span class="k">B</span><span>Do more good works to earn his place</span>
+      <span class="why">Pointless in Calvin's system. <b>The decree was made before time began</b>, so works change nothing.</span></button>
+    <button class="opt hist" data-row="0" data-who="Thomas" data-yr="1563" data-did="Holds on to faith and prays" data-whyl="Calvin's advice: believe you're chosen"><span class="k">C</span><span>Hold on to faith and simply consider himself chosen</span>
+      <span class="why">That's what Calvin advised, and it worked for Calvin, who was sure he was among the elect. <b>For ordinary believers the anxiety didn't go away.</b> Kalberg calls it an impasse, and something had to give.</span></button>
+  </div>
+  <div class="fb" aria-live="polite"></div>
+  <aside class="notes"><p class="t">0:45</p><p>Most rooms pick B. That's the useful mistake: it's the Catholic logic of earning salvation. C writes the first ledger line.</p></aside>
+</section>
+
+<section data-era="candle" data-year="1563" data-ledger class="disc">
+  <div class="count">Discussion 1 of 4</div>
+  <h2>Thomas's God decided everything in advance. Logically, that should make people give up. Why did it make Puritans work harder instead?</h2>
+  <div class="hint-head step">If the room goes quiet</div>
+  <ul>
+    <li class="step">Pastors needed something to tell desperate believers, so later Puritan ministers revised Calvin.</li>
+    <li class="step">Their answer: look for <em>signs</em>. If God gives you the strength to work tirelessly and live righteously, that strength must come from Him.</li>
+    <li class="step">Work doesn't <em>earn</em> salvation. It proves it, to yourself.</li>
+  </ul>
+  <aside class="notes"><p class="t">1:30</p><p>Kalberg pp. 26–33. This is the heart of the book. A good follow-up if someone says "anxiety": critics called anxiety "too thin a thread," and Kalberg replies that it's only one link. The signs, the sanctification of work, and the Puritan style of life all matter.</p></aside>
+</section>
+
+<!-- Generation 2 -->
+<section data-era="ledger" data-year="1655" data-ledger class="scene">
+  <div class="when"><span class="year">1655</span><span class="place">Kidderminster, a weaving town</span></div>
+  <h2>Richard Ashworth, cloth merchant</h2>
+  <p>Richard's minister is Richard Baxter, the Puritan preacher Weber quotes more than anyone. Baxter's version of the faith: everyone must work in a calling, even the rich, because God commands it. Success in your calling may be a sign of God's favor. Enjoying the money is not.</p>
+  <blockquote class="step">"Waste of time is thus the first and in principle the deadliest of sins."<cite>Weber on Baxter (Parsons translation, 1930)</cite></blockquote>
+  <aside class="notes"><p class="t">0:45</p><p>Baxter really was the minister in Kidderminster, a town full of weavers, from 1641 to 1660. Kalberg pp. 27–33: work is sanctified, wealth becomes providential, and systematic work and profit become the most visible signs of election.</p></aside>
+</section>
+
+<section data-era="ledger" data-year="1655" data-ledger>
+  <h2>Richard's best year ever: profits double. What does he do?</h2>
+  <div class="choices">
+    <button class="opt"><span class="k">A</span><span>Buy a country estate and a title, like the gentry</span>
+      <span class="why">Weber calls this the "feudalization of wealth," and Puritans despised it. <b>Aristocratic luxury pulls you away from God</b>, and the money stops producing anything.</span></button>
+    <button class="opt"><span class="k">B</span><span>Retire. He's rich enough</span>
+      <span class="why">Baxter says no. <b>Even the wealthy must work</b>, and being unwilling to work is a sign you're <em>not</em> among the elect.</span></button>
+    <button class="opt hist" data-row="1" data-who="Richard" data-yr="1655" data-did="Reinvests every profit, lives plainly" data-whyl="Success might be a sign he's elect"><span class="k">C</span><span>Buy more looms, keep working, live plainly</span>
+      <span class="why">Wealth from work is a sign of God's blessing, but spending it on yourself is a temptation. <b>Earn a lot, spend little, reinvest:</b> religion has just produced a machine for building capital.</span></button>
+  </div>
+  <div class="fb" aria-live="polite"></div>
+  <aside class="notes"><p class="t">0:40</p><p>Kalberg pp. 37–38. "Feudalization of wealth" is Weber's phrase for the nouveaux riches buying titles and land.</p></aside>
+</section>
+
+<section data-era="ledger" data-year="1655" data-ledger>
+  <h2>To get orders out faster, Richard pays his weavers more per piece. Predict: what happens?</h2>
+  <div class="choices">
+    <button class="opt"><span class="k">A</span><span>They work more hours to earn more</span>
+      <span class="why">That's the modern assumption, and it's exactly the one Weber says <b>isn't natural</b>.</span></button>
+    <button class="opt hist" data-row="-1"><span class="k">B</span><span>They work fewer hours</span>
+      <span class="why"><b>Weber's example of traditionalism.</b> Workers earn their usual amount sooner and go home: people want to live as they're used to, not earn ever more. So Richard hires weavers from his own congregation, who treat work as a calling.</span></button>
+    <button class="opt"><span class="k">C</span><span>They demand an even higher rate</span>
+      <span class="why">Possible, but Weber's point is stranger: <b>more pay produced less work</b>.</span></button>
+  </div>
+  <div class="fb" aria-live="polite"></div>
+  <aside class="notes"><p class="t">0:40</p><p>Weber's actual piece-rate example comes from farm labor in his own day (Kalberg p. 15, PE p. 85), but the logic is the same. Point out that the room's prediction, if it's A, shows how much of the "spirit" we've inherited.</p></aside>
+</section>
+
+<section data-era="ledger" data-year="1655" data-ledger class="disc">
+  <div class="count">Discussion 2 of 4</div>
+  <h2>The weavers took their raise as free time. Richard never stops working and never enjoys his money. Which of them is being irrational?</h2>
+  <div class="hint-head step">If the room goes quiet</div>
+  <ul>
+    <li class="step">Weber: from the point of view of simply enjoying life, the Puritan's endless acquisition looks irrational.</li>
+    <li class="step">Traditionalism is the default. Weber says the spirit of capitalism comes only from a long process of education and socialization.</li>
+    <li class="step">Which of the two would you rather be?</li>
+  </ul>
+  <aside class="notes"><p class="t">1:30</p><p>Weber uses "rational" to mean systematic or methodical, not "better" (Kalberg note 13). Richard is rational in that sense while being irrational in the everyday sense. That tension is the whole book.</p></aside>
+</section>
+
+<!-- Generation 3 -->
+<section data-era="broadside" data-year="1748" data-ledger class="scene">
+  <div class="when"><span class="year">1748</span><span class="place">Philadelphia</span></div>
+  <h2>Samuel Ashworth, printer</h2>
+  <p>The family has crossed the Atlantic. Samuel rarely thinks about predestination, but his parents raised him to rise early, waste nothing, keep honest accounts and never sit idle. This year a local printer publishes advice that Samuel pins above his press.</p>
+  <blockquote class="step">"Remember that time is money."<cite>Benjamin Franklin, <em>Advice to a Young Tradesman</em> (1748)</cite></blockquote>
+  <aside class="notes"><p class="t">0:40</p><p>Franklin is Weber's main example of the spirit of capitalism (Kalberg pp. 15, 39–41). His key point: the ethic outlived its religious root because families, schools and community groups became its new "carriers."</p></aside>
+</section>
+
+<section data-era="broadside" data-year="1748" data-ledger>
+  <h2>At 50, Samuel has enough to live comfortably for the rest of his life. What does he do?</h2>
+  <div class="choices">
+    <button class="opt"><span class="k">A</span><span>Sell the shop and enjoy his savings</span>
+      <span class="why">Franklin would object: money left idle is money that could have produced more, and <b>wasting it is close to a moral failing</b>.</span></button>
+    <button class="opt"><span class="k">B</span><span>Keep working, because God commands it</span>
+      <span class="why">His great-great-grandfather would have said that. <b>Samuel doesn't think in those terms anymore.</b></span></button>
+    <button class="opt hist" data-row="2" data-who="Samuel" data-yr="1748" data-did="Keeps working and expanding the shop" data-whyl="Duty, honesty, &quot;time is money&quot;"><span class="k">C</span><span>Keep working: idleness is a vice, and time is money</span>
+      <span class="why">Same habits, new reason. Weber calls it an ethos with a <b>"utilitarian accent"</b>: still a duty, still about character, but the religious root has faded.</span></button>
+  </div>
+  <div class="fb" aria-live="polite"></div>
+  <aside class="notes"><p class="t">0:30</p><p>Look at the ledger's "why" column now. That's the point of the game: the actions barely change, the reasons do.</p></aside>
+</section>
+
+<section data-era="broadside" data-year="1748" data-ledger data-optional class="disc">
+  <div class="count">Discussion 3 of 4</div>
+  <h2>Samuel kept the habits but lost the theology. What keeps a value alive after its original reason is gone? Name one thing you do just because that's how you were raised.</h2>
+  <div class="hint-head step">If the room goes quiet</div>
+  <ul>
+    <li class="step">Kalberg: families, schools and civic groups became the new carriers of Puritan values.</li>
+    <li class="step">Chapter 1 says the same: upbringing shapes which school track a child picks.</li>
+  </ul>
+  <aside class="notes"><p class="t">1:15 (optional)</p><p>If you're short on time, skip this one; the final question covers similar ground. Kalberg pp. 40, 48–49 on "social carriers" and "legacies."</p></aside>
+</section>
+
+<!-- Generation 4 -->
+<section data-era="steel" data-year="2026" data-ledger class="scene">
+  <div class="when"><span class="year">2026</span><span class="place">Chicago</span></div>
+  <h2>Maya Ashworth, analyst</h2>
+  <p>Maya works sixty-hour weeks, answers email at midnight and schedules her workouts like meetings. She has never once thought about predestination.</p>
+  <p class="step">Ask her why she works this hard, and she'll shrug.</p>
+  <aside class="notes"><p class="t">0:30</p><p>Notice the screen: the color has drained out. That's on purpose.</p></aside>
+</section>
+
+<section data-era="steel" data-year="2026" data-ledger>
+  <h2>Maya is offered a promotion: more money, more hours. What does she do?</h2>
+  <div class="choices">
+    <button class="opt locked" aria-disabled="true"><span class="k">A</span><span>Turn it down and work only what she needs</span>
+      <span class="why">Not really available. Rent, loans and a market that doesn't ask how she feels. Weber: the "grinding mechanism" sets the terms now.</span></button>
+    <button class="opt locked" aria-disabled="true"><span class="k">B</span><span>Take it, for the glory of God</span>
+      <span class="why">That reason left a long time ago. Weber: the duty of the calling now "prowls about in our lives like the ghost of dead religious beliefs."</span></button>
+    <button class="opt hist" data-row="3" data-who="Maya" data-yr="2026" data-did="Takes the promotion" data-whyl="Because she has to"><span class="k">C</span><span>Take it</span>
+      <span class="why">The only button that works. <b>"The Puritan wanted to work in a calling; we are forced to do so."</b> Kalberg's "steel-hard casing," the old translation's iron cage.</span></button>
+  </div>
+  <div class="fb" aria-live="polite"></div>
+  <aside class="notes"><p class="t">0:40</p><p>Let someone shout A or B, click it, and let the button refuse. Quotes are from Parsons' 1930 translation; Kalberg's version is on p. 177 of our edition.</p></aside>
+</section>
+
+<section data-era="steel" data-year="2026" data-ledger>
+  <h2>Remember Thomas's decree?</h2>
+  <div class="sealrow">
+    <div class="seal" id="seal" aria-hidden="true">A</div>
+    <div>
+      <button class="btn" id="breakSeal">Break the seal</button>
+      <div id="decreeWrap" hidden>
+        <div class="small">God's decree for Thomas Ashworth, 1563</div>
+        <div id="decreeOut"></div>
+      </div>
+    </div>
+  </div>
+  <p class="step rule-top">It doesn't matter which. Nothing the Ashworths did could change it, yet four centuries of work grew out of a question nobody could answer. Weber's point about <b>unintended consequences</b>: the Puritans would be horrified by Maya's life.</p>
+  <aside class="notes"><p class="t">0:45</p><p>The decree is random (one in four comes out Elect, since Calvin said only a few are saved). Either result makes the same point. Kalberg pp. 49–50: Puritan wealth eventually undermined the frugal, God-centered life that produced it.</p></aside>
+</section>
+
+<!-- ===================== WRAP-UP ===================== -->
+<section data-era="steel" data-year="2026">
+  <h2>You just played Kalberg's chart</h2>
+  <table class="tbl">
+    <thead><tr><th>Stage</th><th>Century</th><th>Carried by</th><th>Type of action</th><th>Religious?</th><th>Our Ashworth</th></tr></thead>
+    <tbody>
+      <tr><td>Calvin: fatalism from predestination</td><td>16th</td><td>small sects</td><td>value-rational</td><td>yes</td><td>Thomas</td></tr>
+      <tr><td>Baxter: the Protestant ethic</td><td>17th</td><td>churches and sects</td><td>value-rational, methodical</td><td>yes</td><td>Richard</td></tr>
+      <tr><td>Franklin: the spirit of capitalism</td><td>18th</td><td>communities</td><td>value-rational, methodical</td><td>no</td><td>Samuel</td></tr>
+      <tr><td>The specialist: capitalism as a "cosmos"</td><td>20th</td><td>industrial society</td><td>means-end rational</td><td>no</td><td>Maya</td></tr>
+    </tbody>
+  </table>
+  <p class="small" style="margin-top:20px">Adapted from Kalberg's table of the stages of Weber's analysis, p. 44.</p>
+  <aside class="notes"><p class="t">0:50</p><p>Value-rational means acting for the sake of a value. Means-end rational means calculating how to get what you want. The arrow from Thomas to Maya is the routinization of motives: the same methodical life, emptied of its original meaning.</p></aside>
+</section>
+
+<section data-era="steel" data-year="2026" data-optional>
+  <h2>Common objections, and the replies</h2>
+  <table class="tbl">
+    <thead><tr><th>The critics say</th><th>Weber and Kalberg reply</th></tr></thead>
+    <tbody>
+      <tr><td>"Weber is an idealist"</td><td class="step">He says a one-sided cultural explanation is no better than a one-sided materialist one.</td></tr>
+      <tr><td>"He doesn't explain capitalism"</td><td class="step">He never tried. His aim is the spirit's religious ancestry.</td></tr>
+      <tr><td>"Calvin never preached work"</td><td class="step">Correct. The source is later Puritans like Baxter, which is why Thomas and Richard differ.</td></tr>
+      <tr><td>"Anxiety is too thin a thread"</td><td class="step">Anxiety is one link. Signs, sanctified work and the style of life matter too.</td></tr>
+    </tbody>
+  </table>
+  <aside class="notes"><p class="t">1:00 (optional)</p><p>Kalberg section V, pp. 50–55. Good to have in your pocket for Q&amp;A even if you skip the slide.</p></aside>
+</section>
+
+<section data-era="steel" data-year="2026" class="disc">
+  <div class="count">Discussion 4 of 4</div>
+  <h2>"The Puritan wanted to work in a calling; we are forced to do so." Is that true of you? And is culture really why Americans work more than Europeans?</h2>
+  <div class="hint-head step">If the room goes quiet</div>
+  <ul>
+    <li class="step">The case against Weber: labor laws, healthcare tied to jobs, wages and vacation policy may explain the hours gap better than religion.</li>
+    <li class="step">Kalberg's case for him: even market behavior that looks purely economic carries a cultural imprint.</li>
+    <li class="step">Casing, or choice?</li>
+  </ul>
+  <aside class="notes"><p class="t">2:00</p><p>End the discussion here and go to the last slide. If people push the institutional explanation, that's the "Weber is an idealist" critique; Weber's reply is that he wanted to add culture to the explanation, not replace everything else with it.</p></aside>
+</section>
+
+<section data-era="now" data-year="2026">
+  <div class="title-wrap">
+    <h2 style="font-size:96px;max-width:18ch">Ideas make history, but rarely the history their believers wanted.</h2>
+    <p class="lede" style="color:var(--muted)">Thank you. Questions?</p>
+  </div>
+  <aside class="notes"><p class="t">0:20</p><p>One-line takeaway: a religious answer to "Am I saved?" helped create a work ethic that outlived the religion and now runs without it.</p></aside>
+</section>
+
+</div><!-- /stage -->
+
+<div id="ledger" hidden>
+  <table>
+    <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup>
+    <thead><tr><th>The family ledger</th><th>Year</th><th>What they did</th><th>Why they did it</th></tr></thead>
+    <tbody id="ledgerBody"></tbody>
+  </table>
+</div>
+
+<div id="yr" aria-hidden="true"><div id="yrNum"></div></div>
+<div id="notes" hidden></div>
+<div id="corner"></div>
+
+<script>
+(function(){
+  const stage = document.getElementById('stage');
+  const ledger = document.getElementById('ledger');
+  const slides = [...stage.querySelectorAll('section')];
+  const notesEl = document.getElementById('notes');
+  const corner = document.getElementById('corner');
+  const yr = document.getElementById('yr'), yrNum = document.getElementById('yrNum');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i = 0, short = false, lastYear = null, busy = false;
+
+  // Ledger lives inside the stage so it scales with it
+  stage.appendChild(ledger);
+  const rows = [
+    {who:'Thomas', yr:'1563'}, {who:'Richard', yr:'1655'},
+    {who:'Samuel', yr:'1748'}, {who:'Maya', yr:'2026'}
+  ];
+  function renderLedger(newRow){
+    const b = document.getElementById('ledgerBody');
+    b.innerHTML = rows.map((r,k)=> r.did
+      ? `<tr class="r${k}${k===newRow?' new':''}"><td>${r.who}</td><td>${r.yr}</td><td>${r.did}</td><td>${r.why}</td></tr>`
+      : `<tr class="empty"><td>…</td><td></td><td></td><td></td></tr>`).join('');
+  }
+  renderLedger(-1);
+
+  // Calvin: only a few are saved
+  const decree = Math.random() < 0.25 ? 'Elect' : 'Damned';
+
+  function fit(){
+    const s = Math.min(innerWidth/1600, innerHeight/900);
+    stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+  }
+  addEventListener('resize', fit); fit();
+
+  const visible = k => !(short && 'optional' in slides[k].dataset);
+
+  function show(k, forward){
+    slides[i].classList.remove('active');
+    i = k;
+    const s = slides[i];
+    const era = s.dataset.era || 'now';
+    const year = s.dataset.year;
+    const swap = () => {
+      document.body.dataset.era = era;
+      s.classList.add('active');
+      ledger.hidden = !('ledger' in s.dataset);
+      const n = s.querySelector('.notes');
+      notesEl.innerHTML = n ? n.innerHTML : '';
+      const shown = slides.filter((_,x)=>visible(x));
+      corner.textContent = `${shown.indexOf(s)+1} / ${shown.length}${short?'  ·  short version':''}`;
+      history.replaceState(null,'','#'+(i+1));
+    };
+    if (forward && year && lastYear && year !== lastYear && !reduce){
+      yearRoll(+lastYear, +year, era, swap);
+    } else swap();
+    if (year) lastYear = year;
+  }
+
+  function yearRoll(from, to, era, done){
+    busy = true;
+    document.body.dataset.era = era;
+    yr.classList.remove('fade'); yr.classList.add('show');
+    const t0 = performance.now(), dur = 1100;
+    (function tick(t){
+      const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
+      yrNum.textContent = Math.round(from + (to-from)*e);
+      if (p < 1) requestAnimationFrame(tick);
+      else {
+        done();
+        setTimeout(()=>{ yr.classList.add('fade'); yr.classList.remove('show'); busy=false; }, 280);
+      }
+    })(t0);
+  }
+
+  function next(){
+    if (busy) return;
+    const hidden = slides[i].querySelector('.step:not(.on)');
+    if (hidden){ hidden.classList.add('on'); return; }
+    move(1);
+  }
+  function prev(){
+    if (busy) return;
+    const on = [...slides[i].querySelectorAll('.step.on')];
+    if (on.length){ on[on.length-1].classList.remove('on'); return; }
+    move(-1);
+  }
+  function move(d){
+    let j = i + d;
+    while (j >= 0 && j < slides.length && !visible(j)) j += d;
+    if (j < 0 || j >= slides.length) return;
+    show(j, d > 0);
+  }
+
+  // Choices
+  stage.addEventListener('click', e => {
+    const opt = e.target.closest('.opt');
+    if (!opt) return;
+    const sec = opt.closest('section');
+    const fb = sec.querySelector('.fb');
+    fb.innerHTML = opt.querySelector('.why').innerHTML;
+    if (opt.classList.contains('locked')){
+      opt.classList.remove('shake'); void opt.offsetWidth; opt.classList.add('shake');
+      return;
+    }
+    sec.querySelectorAll('.opt').forEach(o=>o.classList.remove('picked'));
+    opt.classList.add('picked');
+    if (opt.classList.contains('hist')){
+      const r = +opt.dataset.row;
+      if (r >= 0 && !rows[r].did){
+        rows[r].did = opt.dataset.did; rows[r].why = opt.dataset.whyl;
+        renderLedger(r);
+      }
+    }
+  });
+
+  document.getElementById('breakSeal').addEventListener('click', ()=>{
+    document.getElementById('seal').classList.add('broken');
+    document.getElementById('decreeOut').textContent = decree;
+    document.getElementById('decreeWrap').hidden = false;
+    document.getElementById('breakSeal').hidden = true;
+  });
+
+  addEventListener('keydown', e => {
+    if (e.target.closest && e.target.closest('button') && (e.key===' '||e.key==='Enter')) return;
+    const k = e.key.toLowerCase();
+    if (['arrowright','pagedown',' ','enter'].includes(e.key.toLowerCase()) || k==='arrowright'){ e.preventDefault(); next(); }
+    else if (['arrowleft','pageup','backspace'].includes(k)){ e.preventDefault(); prev(); }
+    else if (k==='n'){ notesEl.hidden = !notesEl.hidden; }
+    else if (k==='f'){ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); }
+    else if (k==='s'){ short = !short; if (!visible(i)) move(1); else show(i,false); }
+    else if (['a','b','c'].includes(k)){
+      const o = slides[i].querySelectorAll('.opt')[k.charCodeAt(0)-97];
+      if (o) o.click();
+    }
+  });
+
+  // Start (supports #n deep links while rehearsing)
+  const start = Math.max(0, Math.min(slides.length-1, (parseInt(location.hash.slice(1))||1)-1));
+  slides.forEach(s=>s.classList.remove('active'));
+  i = start; lastYear = slides[start].dataset.year || null;
+  show(start, false);
+})();
+</script>
+</body>
+</html>
