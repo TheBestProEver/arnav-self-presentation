@@ -4,468 +4,826 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Inheritance: Weber's Protestant Ethic</title>
-<meta name="description" content="A presentation and class game on Max Weber's Protestant Ethic: Kalberg's introduction and Chapter 1.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IM+Fell+English:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-/* ---------- Era palettes: the design itself "secularizes" as the family moves through time ---------- */
 :root{
   color-scheme: light;
-  --f-fell: "IM Fell English", "Iowan Old Style", Georgia, serif;
-  --f-caslon: "Libre Caslon Text", "Baskerville", Georgia, serif;
-  --f-steel: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  /* default = "now" (light steel) */
-  --bg:#E3E6E8; --ink:#1F2428; --muted:#5B646B; --rule:#AEB5BA; --accent:#3E5C76; --panel:#D5DADD;
-  --display: var(--f-steel); --body: var(--f-steel); --stretch: 80%; --dweight: 760;
+  --f-fell:"IM Fell English","Iowan Old Style",Georgia,serif;
+  --f-caslon:"Libre Caslon Text","Baskerville",Georgia,serif;
+  --f-steel:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --bg:#E3E6E8; --ink:#1F2428; --muted:#5B646B; --rule:#AEB5BA; --accent:#3E5C76; --panel:#D5DADD; --deep:#2C4458;
+  --display:var(--f-steel); --body:var(--f-steel); --stretch:80%; --dweight:760;
+  --card:#EADFC8; --cardink:#2A2017; --cardmuted:#6E5D47;
 }
-body[data-era="candle"]{ color-scheme: dark;
-  --bg:#241C15; --ink:#E9DDC4; --muted:#A8977A; --rule:#4A3B2C; --accent:#C9A44C; --panel:#2E241B;
-  --display: var(--f-fell); --body: var(--f-caslon); --stretch: 100%; --dweight: 400; }
-body[data-era="ledger"]{
-  --bg:#E2DFD3; --ink:#23253A; --muted:#5D5A66; --rule:#B04A43; --accent:#A8423B; --panel:#D6D2C4;
-  --display: var(--f-fell); --body: var(--f-caslon); --stretch: 100%; --dweight: 400; }
-body[data-era="broadside"]{
-  --bg:#E7E2D4; --ink:#191919; --muted:#555049; --rule:#1F3A5F; --accent:#1F3A5F; --panel:#DAD4C3;
-  --display: var(--f-caslon); --body: var(--f-caslon); --stretch: 100%; --dweight: 700; }
-body[data-era="steel"]{ color-scheme: dark;
-  --bg:#2B3035; --ink:#CDD3D8; --muted:#7E878F; --rule:#454D54; --accent:#9AA3AB; --panel:#343A40;
-  --display: var(--f-steel); --body: var(--f-steel); --stretch: 70%; --dweight: 700; }
 @media (prefers-color-scheme: dark){
-  :root{ color-scheme: dark; --bg:#1D2226; --ink:#DCE1E5; --muted:#8E98A0; --rule:#3A434A; --accent:#8FB0CC; --panel:#262C31; }
-  body[data-era="ledger"]{ --bg:#1E1F2A; --ink:#E0DCCF; --muted:#9A96A3; --rule:#C0605A; --accent:#D2736B; --panel:#272836; }
-  body[data-era="broadside"]{ --bg:#17191C; --ink:#E7E2D4; --muted:#A19C90; --rule:#6F8DB3; --accent:#8FAAD0; --panel:#22252A; }
+  :root{ color-scheme:dark; --bg:#1D2226; --ink:#DCE1E5; --muted:#8E98A0; --rule:#3A434A; --accent:#8FB0CC; --panel:#262C31; --deep:#5F84A6; }
+}
+body[data-era="candle"]{ color-scheme:dark;
+  --bg:#241C15; --ink:#E9DDC4; --muted:#A8977A; --rule:#4A3B2C; --accent:#C9A44C; --panel:#2E241B; --deep:#8E7232;
+  --display:var(--f-fell); --body:var(--f-caslon); --stretch:100%; --dweight:400; }
+body[data-era="ledger"]{
+  --bg:#E2DFD3; --ink:#23253A; --muted:#5D5A66; --rule:#B04A43; --accent:#A8423B; --panel:#D6D2C4; --deep:#7A2C27;
+  --display:var(--f-fell); --body:var(--f-caslon); --stretch:100%; --dweight:400; }
+body[data-era="broadside"]{
+  --bg:#E7E2D4; --ink:#191919; --muted:#555049; --rule:#1F3A5F; --accent:#1F3A5F; --panel:#DAD4C3; --deep:#132539;
+  --display:var(--f-caslon); --body:var(--f-caslon); --stretch:100%; --dweight:700; }
+body[data-era="steel"]{ color-scheme:dark;
+  --bg:#2B3035; --ink:#CDD3D8; --muted:#7E878F; --rule:#454D54; --accent:#9AA3AB; --panel:#343A40; --deep:#6A737B;
+  --display:var(--f-steel); --body:var(--f-steel); --stretch:70%; --dweight:700; }
+@media (prefers-color-scheme: dark){
+  body[data-era="ledger"]{ color-scheme:dark; --bg:#1E1F2A; --ink:#E0DCCF; --muted:#9A96A3; --rule:#C0605A; --accent:#D2736B; --panel:#272836; --deep:#9C4A44; }
+  body[data-era="broadside"]{ color-scheme:dark; --bg:#17191C; --ink:#E7E2D4; --muted:#A19C90; --rule:#6F8DB3; --accent:#8FAAD0; --panel:#22252A; --deep:#4D6A90; }
 }
 
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;overflow:hidden}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);transition:background-color .5s ease,color .5s ease}
-#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center center}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center center;perspective:1800px}
 
-section{position:absolute;inset:0;padding:72px 112px;display:none;flex-direction:column}
+section{position:absolute;inset:0;padding:64px 104px;display:none;flex-direction:column;transform-style:preserve-3d}
 section.active{display:flex}
-section[data-ledger]{padding-top:60px;padding-bottom:230px}
-section[data-ledger] h2{font-size:54px;max-width:34ch;margin-bottom:24px}
-section[data-ledger].disc h2{font-size:48px;max-width:40ch}
-section[data-ledger].disc li{font-size:24px}
-section[data-ledger] .year{font-size:120px}
-section[data-ledger].scene p{font-size:28px;max-width:62ch}
-section[data-ledger] blockquote{font-size:28px;max-width:56ch}
-.notes{display:none}
+section.enter{animation:enter .6s cubic-bezier(.2,.7,.2,1)}
+section.enterBack{animation:enterBack .6s cubic-bezier(.2,.7,.2,1)}
+section[data-ledger]{padding-top:56px;padding-bottom:228px}
 
-h1,h2{font-family:var(--display);font-weight:var(--dweight);font-stretch:var(--stretch);margin:0;line-height:1.04;letter-spacing:-.005em}
-h1{font-size:200px;letter-spacing:-.02em}
-h2{font-size:64px;max-width:24ch;margin-bottom:34px}
-p,li,td,th,button{font-family:var(--body)}
-p{font-size:31px;line-height:1.45;margin:0 0 20px;max-width:56ch}
-.small{font-size:24px;color:var(--muted)}
+h1,h2,h3{font-family:var(--display);font-weight:var(--dweight);font-stretch:var(--stretch);margin:0;line-height:1.05}
+h1{font-size:180px;letter-spacing:-.02em}
+h2{font-size:60px;max-width:26ch;margin-bottom:30px}
+section[data-ledger] h2{font-size:50px;max-width:36ch;margin-bottom:22px}
+p,li,td,th,button,input{font-family:var(--body)}
+p{font-size:30px;line-height:1.45;margin:0 0 18px;max-width:58ch}
+.small{font-size:22px;color:var(--muted)}
 .lede{font-size:36px;max-width:44ch}
-em{font-style:italic}
+.rule-top{border-top:2px solid var(--rule);padding-top:22px;margin-top:26px}
 
-.step{opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease}
+.step{opacity:0;transform:translateY(8px);transition:opacity .35s ease,transform .35s ease}
 .step.on{opacity:1;transform:none}
 
-/* title */
-.title-wrap{margin-top:auto;margin-bottom:auto}
-.title-wrap p{font-size:34px;max-width:40ch;color:var(--muted)}
-.title-foot{display:flex;justify-content:space-between;align-items:flex-end;font-size:22px;color:var(--muted)}
-.keys span{display:inline-block;border:1.5px solid var(--rule);border-radius:4px;padding:2px 9px;margin:0 6px 0 18px;color:var(--ink)}
+/* ---------- title: a 3D wax seal turning in the candlelight ---------- */
+.title{display:grid;grid-template-columns:1fr 420px;align-items:center;gap:40px;height:100%}
+.title p{font-size:32px;color:var(--muted);max-width:36ch}
+.title-foot{position:absolute;left:104px;right:104px;bottom:44px;display:flex;justify-content:space-between;font-size:20px;color:var(--muted)}
+.keys span{display:inline-block;border:1.5px solid var(--rule);border-radius:4px;padding:1px 8px;margin:0 6px 0 16px;color:var(--ink)}
+.coin{width:320px;height:320px;position:relative;transform-style:preserve-3d;margin:auto}
+.coin.spin{animation:spin 9s linear infinite}
+@keyframes spin{to{transform:rotateY(360deg)}}
+.coin .face{position:absolute;inset:0;border-radius:50%;backface-visibility:hidden;display:grid;place-items:center;text-align:center;
+  background:radial-gradient(circle at 36% 32%,#C24A42,#87231E 58%,#5E1512);color:#F1D9C6;font-family:var(--f-fell);
+  box-shadow:inset -10px -14px 0 rgba(0,0,0,.2),inset 8px 8px 0 rgba(255,255,255,.06)}
+.coin .face::after{content:"";position:absolute;inset:22px;border-radius:50%;border:3px dotted rgba(241,217,198,.45)}
+.coin .face b{font-weight:400;font-size:120px;line-height:1}
+.coin .face small{display:block;font-size:24px;margin-top:6px}
+.coin .back{transform:rotateY(180deg)}
 
-/* hands up */
-.hands{list-style:none;padding:0;margin:0}
-.hands li{font-size:40px;line-height:1.3;padding:20px 0;border-top:1.5px solid var(--rule);max-width:48ch}
-.hands li:last-child{border-bottom:1.5px solid var(--rule)}
 
-/* argument chain (a real sequence) */
-.chain{list-style:none;counter-reset:c;padding:0;margin:0;display:grid;gap:18px}
-.chain li{counter-increment:c;display:grid;grid-template-columns:64px 1fr;font-size:27px;line-height:1.4;max-width:68ch}
-.chain li::before{content:counter(c);font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:40px;color:var(--accent);line-height:1}
-.chain b{font-weight:700}
+/* ---------- poll ---------- */
+.poll h2{margin-bottom:10px}
+.poll .how{font-size:22px;color:var(--muted);margin-bottom:26px}
+.pollgrid{display:grid;grid-template-columns:1fr 470px;gap:56px;align-items:start}
+.prow{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:30px}
+.plabel{display:flex;justify-content:space-between;align-items:baseline;font-size:32px}
+.plabel .lt{display:flex;gap:16px;align-items:baseline}
+.plabel .k{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);color:var(--accent);font-size:36px}
+.plabel .pct{font-family:var(--f-steel);font-variant-numeric:tabular-nums;font-weight:700;font-size:34px}
+.track{height:64px;perspective:600px}
+.slab{height:100%;background:var(--panel);border-radius:4px;transform:rotateX(24deg);transform-origin:bottom;position:relative;overflow:hidden;box-shadow:0 8px 0 var(--rule)}
+.fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width .7s cubic-bezier(.2,.8,.2,1);box-shadow:inset 0 -10px 0 var(--deep)}
+.ctl{display:flex;gap:10px;align-items:center;font-size:20px;color:var(--muted)}
+.ctl button{all:unset;cursor:pointer;width:40px;height:40px;border:1.5px solid var(--rule);border-radius:4px;display:grid;place-items:center;font-size:24px;color:var(--ink)}
+.ctl button:focus-visible,.ctl input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.ctl input{width:86px;height:40px;font-size:22px;text-align:center;border:1.5px solid var(--rule);border-radius:4px;background:transparent;color:var(--ink)}
+.weber-pick{display:none;font-family:var(--f-steel);font-size:18px;font-weight:700;color:var(--bg);background:var(--accent);padding:3px 10px;border-radius:3px;margin-left:12px}
+.revealed .weber-pick{display:inline-block}
 
-/* two-column contrast */
-.contrast{display:grid;grid-template-columns:1fr 1.25fr;gap:72px;margin-top:8px}
-.contrast h3{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:38px;margin:0 0 14px}
-.contrast .no h3{color:var(--muted);text-decoration:line-through;text-decoration-thickness:3px}
-.contrast p{font-size:29px}
-.rule-top{border-top:2px solid var(--rule);padding-top:24px;margin-top:30px}
+/* flip card (used by polls, cast, then-vs-now) */
+.flip{perspective:1200px}
+.flip .inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.3,.8,.25,1)}
+.flip .side{position:absolute;inset:0;backface-visibility:hidden;border-radius:8px;overflow:hidden}
+.flip .bk{transform:rotateY(180deg)}
+.flip.turned .inner,.flip.step.on .inner{transform:rotateY(180deg)}
+.flip.step{opacity:1;transform:none}
 
-/* tables */
-table{border-collapse:collapse;width:100%}
-.tbl th{text-align:left;font-weight:700;font-size:22px;color:var(--muted);padding:0 18px 12px 0;border-bottom:2px solid var(--rule)}
-.tbl td{font-size:25px;line-height:1.35;padding:13px 18px 13px 0;border-bottom:1px solid var(--rule);vertical-align:top}
-.tbl td:first-child{font-weight:700;width:30%}
+.wcard{height:440px}
+.wcard .side{background:var(--card);color:var(--cardink);padding:30px 32px;display:flex;flex-direction:column;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.wcard .fr{align-items:center;justify-content:center;text-align:center;gap:16px}
+.wcard .fr p{font-family:var(--f-fell);font-size:36px;color:var(--cardink);margin:0}
+.wcard .fr .small{color:var(--cardmuted);font-family:var(--f-steel);font-size:18px}
+.wcard .bk h3{font-family:var(--f-fell);font-weight:400;font-size:34px;margin-bottom:12px;color:#87231E}
+.wcard .bk p{font-family:var(--f-caslon);font-size:22px;line-height:1.45;color:var(--cardink);margin:0 0 10px}
+.mini-portrait{width:120px;height:140px;flex:none}
 
-/* game: scenes */
-.when{display:flex;align-items:baseline;gap:28px;margin-bottom:6px}
-.year{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:150px;line-height:.9;color:var(--accent)}
+/* ---------- big-question contrast ---------- */
+.contrast{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.contrast h3{font-size:36px;margin-bottom:12px}
+.contrast p{font-size:27px}
+.contrast .old h3{color:var(--muted)}
+.pic{height:170px;margin-bottom:18px}
+.pic svg{height:100%}
+
+/* piece-rate mini animation */
+.piece{display:grid;grid-template-columns:repeat(2,1fr);gap:40px;margin-top:6px}
+.piece .lane{border-top:2px solid var(--rule);padding-top:16px}
+.piece .lane h3{font-size:30px;margin-bottom:10px}
+.hours{display:flex;gap:8px;height:130px;align-items:flex-end;margin:10px 0}
+.hours i{display:block;width:52px;background:var(--accent);border-radius:3px 3px 0 0;height:80px;transition:height .7s ease,opacity .7s}
+.piece p{font-size:27px}
+
+/* chain */
+.chain{list-style:none;counter-reset:c;padding:0;margin:0;display:grid;gap:16px}
+.chain li{counter-increment:c;display:grid;grid-template-columns:60px 1fr;font-size:30px;line-height:1.4;max-width:70ch}
+.chain li::before{content:counter(c);font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:38px;color:var(--accent);line-height:1}
+
+/* cast cards */
+.cast{display:grid;grid-template-columns:repeat(6,1fr);gap:20px}
+.ccard{height:430px}
+.ccard .side{background:var(--card);color:var(--cardink);padding:18px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;box-shadow:0 14px 30px rgba(0,0,0,.22)}
+.ccard .fr svg{width:150px;height:175px;margin:4px 0 8px}
+.ccard .fr h3{font-family:var(--f-fell);font-weight:400;font-size:30px;color:var(--cardink)}
+.ccard .fr .d{font-family:var(--f-steel);font-size:17px;color:var(--cardmuted);margin-top:4px}
+.ccard .role{font-family:var(--f-caslon);font-style:italic;font-size:19px;color:#87231E}
+.ccard .fr .role{margin-top:auto}
+.ccard .bk{justify-content:flex-start}
+.ccard .bk svg.sm{width:96px;height:112px;margin-bottom:4px}
+.ccard .bk .role{margin:2px 0 10px}
+.ccard .bk h3{font-family:var(--f-fell);font-weight:400;font-size:28px;color:var(--cardink)}
+.ccard .bk p{font-family:var(--f-caslon);font-size:18px;line-height:1.42;color:var(--cardink);margin:0}
+.rivals{display:flex;gap:26px;align-items:center;margin-top:26px;font-size:22px;color:var(--muted)}
+.rivals svg{width:54px;height:63px;border-radius:50%;background:var(--card)}
+.rivals div{display:flex;gap:12px;align-items:center;max-width:58ch}
+
+/* the staircase: the story climbs in 3D */
+.stairs{position:relative;height:600px;transform-style:preserve-3d;perspective:1400px;margin-top:-10px}
+.stairs .floor{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(24deg) translateY(10px)}
+.stair{position:absolute;width:205px;padding:16px 18px;background:var(--panel);border:2px solid var(--rule);border-radius:6px;transform-style:preserve-3d}
+.stair::after{content:"";position:absolute;left:-2px;right:-2px;top:100%;height:calc(var(--h)*1px);background:var(--deep);opacity:.55;transform-origin:top;transform:rotateX(-90deg);border-radius:0 0 4px 4px}
+.stair h3{font-size:28px;margin-bottom:6px;color:var(--accent)}
+.stair p{font-size:20px;line-height:1.38;margin:0}
+.stair.step{transform:translateZ(calc(var(--h)*1px - 60px));opacity:0}
+.stair.step.on{transform:translateZ(calc(var(--h)*1px));opacity:1}
+
+/* ---------- game ---------- */
+.when{display:flex;align-items:baseline;gap:26px;margin-bottom:4px}
+.year{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:118px;line-height:.9;color:var(--accent)}
 .place{font-size:28px;color:var(--muted)}
-.scene p{font-size:30px}
-blockquote{margin:12px 0 0;padding:0 0 0 26px;border-left:4px solid var(--accent);font-size:32px;line-height:1.4;max-width:46ch;font-style:italic}
-blockquote cite{display:block;font-style:normal;font-size:22px;color:var(--muted);margin-top:8px}
-
-/* game: choices */
-.choices{display:grid;gap:14px;max-width:1300px}
-.opt{all:unset;cursor:pointer;display:grid;grid-template-columns:56px 1fr;align-items:center;font-family:var(--body);font-size:27px;line-height:1.3;padding:11px 22px;border:2px solid var(--rule);border-radius:6px;background:var(--panel);color:var(--ink);transition:border-color .2s,background-color .2s}
-.opt .k{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:34px;color:var(--accent)}
-.opt:hover{border-color:var(--accent)}
+.scene p{font-size:27px;max-width:66ch;margin-bottom:14px}
+blockquote{margin:6px 0 14px;padding:0 0 0 24px;border-left:4px solid var(--accent);font-size:28px;line-height:1.4;font-style:italic;max-width:56ch}
+blockquote cite{display:block;font-style:normal;font-size:19px;color:var(--muted);margin-top:4px}
+.choices{display:grid;gap:12px;max-width:1360px}
+.opt{all:unset;cursor:pointer;display:grid;grid-template-columns:52px 1fr;align-items:center;font-family:var(--body);font-size:26px;line-height:1.3;padding:11px 22px;border:2px solid var(--rule);border-radius:6px;background:var(--panel);color:var(--ink);transition:border-color .2s,transform .25s}
+.opt .k{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:32px;color:var(--accent)}
+.opt:hover{border-color:var(--accent);transform:translateZ(14px)}
 .opt:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .opt.picked{border-color:var(--accent);background:transparent}
 .opt.locked{opacity:.55;cursor:not-allowed}
-.opt.locked .k::after{content:"";}
 .opt.shake{animation:shake .38s}
 @keyframes shake{20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
 .opt .why{display:none}
-.fb{margin-top:18px;font-size:24px;line-height:1.45;max-width:72ch;min-height:2em;border-left:4px solid var(--accent);padding-left:22px}
+.fb{margin-top:16px;font-size:23px;line-height:1.45;max-width:76ch;min-height:2em;border-left:4px solid var(--accent);padding-left:20px}
 .fb:empty{border-left-color:transparent}
-.fb b{font-weight:700}
 
-/* discussion */
-.disc .count{font-size:24px;color:var(--muted);margin-bottom:18px}
-.disc h2{font-size:58px;max-width:30ch;line-height:1.12}
-.disc .hint-head{font-size:22px;color:var(--muted);margin:6px 0 10px}
-.disc ul{margin:0;padding:0 0 0 1.1em}
-.disc li{font-size:26px;line-height:1.42;margin-bottom:8px;max-width:68ch}
+.howto{display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:center}
+.howto ol{margin:0;padding:0 0 0 1.2em}
+.howto li{font-size:27px;line-height:1.4;margin-bottom:12px;max-width:52ch}
+.coin.small{width:230px;height:230px}
+.coin.small .face b{font-size:84px}
 
-/* the seal */
-.seal{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 38% 34%,#B1413A,#7D1F1B 62%,#5E1512);box-shadow:inset -6px -8px 0 rgba(0,0,0,.18);display:grid;place-items:center;color:#F1D9C6;font-family:var(--f-fell);font-size:66px;flex:none}
-.sealrow{display:flex;gap:40px;align-items:center}
-.seal.broken{background:none;box-shadow:none;border:3px dashed var(--rule);color:var(--muted)}
-#decreeOut{font-family:var(--f-fell);font-size:120px;line-height:1;margin:6px 0 18px;color:var(--accent)}
-.btn{all:unset;cursor:pointer;font-family:var(--body);font-size:28px;padding:14px 26px;border:2px solid var(--accent);border-radius:6px;color:var(--ink)}
-.btn[hidden]{display:none}
-.btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-
-/* the family ledger */
-#ledger{position:absolute;left:112px;right:112px;bottom:34px;height:172px;border-top:3px double var(--rule)}
+/* ledger */
+#ledger{position:absolute;left:104px;right:104px;bottom:32px;height:172px;border-top:3px double var(--rule)}
 #ledger[hidden]{display:none}
-#ledger table{table-layout:fixed}
+#ledger table{border-collapse:collapse;width:100%;table-layout:fixed}
 #ledger th{font-family:var(--f-steel);font-weight:600;font-size:16px;color:var(--muted);text-align:left;padding:8px 12px 4px 0}
 #ledger td{font-size:20px;padding:4px 12px 4px 0;border-bottom:1px solid var(--rule);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:31px}
 #ledger tr.empty td{color:var(--rule)}
-#ledger tr.new td{animation:ink .9s ease}
-@keyframes ink{from{color:var(--accent)}}
+#ledger tr.new td{animation:ink 1s ease}
+@keyframes ink{from{color:var(--accent);transform:translateX(-8px)}}
 #ledger .r0 td,#ledger .r1 td{font-family:var(--f-fell);font-size:22px}
 #ledger .r2 td{font-family:var(--f-caslon)}
 #ledger .r3 td{font-family:var(--f-steel);font-stretch:75%}
-#ledger col.c1{width:14%} #ledger col.c2{width:8%} #ledger col.c3{width:36%} #ledger col.c4{width:42%}
+#ledger col.c1{width:19%} #ledger col.c2{width:7%} #ledger col.c3{width:35%} #ledger col.c4{width:39%}
 
-/* the year overlay: the one orchestrated motion */
-#yr{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);opacity:0;pointer-events:none;z-index:20}
-#yr.show{opacity:1}
-#yr.fade{opacity:0;transition:opacity .45s ease}
-#yrNum{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:min(34vw,60vh);color:var(--accent);font-variant-numeric:tabular-nums;line-height:1}
+/* discussion */
+.disc .count{font-size:22px;color:var(--muted);margin-bottom:14px}
+.disc h2{font-size:54px;max-width:32ch;line-height:1.12}
+section[data-ledger].disc h2{font-size:46px;max-width:42ch}
+.disc .hint-head{font-size:21px;color:var(--muted);margin:4px 0 8px}
+.disc ul{margin:0;padding:0 0 0 1.1em}
+.disc li{font-size:25px;line-height:1.42;margin-bottom:6px;max-width:70ch}
+section[data-ledger].disc li{font-size:23px}
+.timer{all:unset;cursor:pointer;position:absolute;right:104px;top:60px;font-family:var(--f-steel);font-variant-numeric:tabular-nums;font-size:30px;font-weight:700;border:2px solid var(--rule);border-radius:6px;padding:8px 16px;color:var(--ink)}
+.timer:focus-visible{outline:3px solid var(--accent)}
+.timer.done{border-color:var(--accent);color:var(--accent)}
+
+/* seal reveal */
+.sealrow{display:flex;gap:60px;align-items:center}
+#decreeOut{font-family:var(--f-fell);font-size:110px;line-height:1;margin:6px 0 14px;color:var(--accent)}
+.btn{all:unset;cursor:pointer;font-family:var(--body);font-size:26px;padding:12px 24px;border:2px solid var(--accent);border-radius:6px;color:var(--ink)}
+.btn[hidden]{display:none}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.coin.flipped{transform:rotateY(180deg);transition:transform 1.4s cubic-bezier(.3,.8,.25,1)}
+
+/* ---------- group chat ---------- */
+.chatwrap{display:grid;grid-template-columns:470px 1fr;gap:70px;align-items:start}
+.phone{width:470px;height:770px;border-radius:46px;background:#121417;padding:16px;box-shadow:0 30px 60px rgba(0,0,0,.35);transform:rotateY(10deg) rotateX(3deg);transform-style:preserve-3d;margin-top:-22px}
+.screen{height:100%;border-radius:34px;background:#F2F2F5;overflow:hidden;display:flex;flex-direction:column;font-family:-apple-system,"SF Pro Text","Segoe UI",var(--f-steel),sans-serif}
+@media (prefers-color-scheme: dark){ .screen{background:#000} .msg.them .b{background:#26252A!important;color:#F2F2F5!important} .chathead{background:#1C1C1E!important;color:#F2F2F5!important;border-color:#333!important} .sys{color:#8E8E93!important} }
+.chathead{background:#F9F9FB;border-bottom:1px solid #D9D9DE;padding:16px 18px 12px;text-align:center;color:#111}
+.chathead b{display:block;font-size:19px}
+.chathead span{font-size:14px;color:#8E8E93}
+.thread{flex:1;padding:10px 14px;display:flex;flex-direction:column;gap:5px;overflow:hidden;justify-content:flex-start}
+.msg{display:flex;flex-direction:column;max-width:84%}
+.msg .n{font-size:12.5px;color:#8E8E93;margin:0 0 2px 12px}
+.msg .b{font-size:16.5px;line-height:1.28;padding:7px 12px;border-radius:18px;background:#E5E5EA;color:#111}
+.msg.me{align-self:flex-end}
+.msg.me .n{text-align:right;margin:0 12px 2px 0}
+.msg.me .b{background:#0A84FF;color:#fff}
+.sys{align-self:center;font-size:13px;color:#8E8E93;margin:4px 0}
+.msg.step,.sys.step{transform:translateY(10px) scale(.96)}
+.msg.step.on,.sys.step.on{transform:none}
+.chatside h2{font-size:52px}
+.chatside p{font-size:26px}
+.parody{font-size:18px;color:var(--muted);margin-top:14px}
+
+/* ---------- then vs now ---------- */
+.tn{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.tcard{height:270px}
+.tcard .side{padding:20px 22px;display:flex;flex-direction:column;box-shadow:0 12px 26px rgba(0,0,0,.2)}
+.tcard .fr{background:var(--card);color:var(--cardink)}
+.tcard .fr .who{font-family:var(--f-steel);font-size:16px;color:var(--cardmuted)}
+.tcard .fr h3{font-family:var(--f-fell);font-weight:400;font-size:30px;margin:8px 0 10px;color:var(--cardink)}
+.tcard .fr p{font-family:var(--f-caslon);font-size:19px;line-height:1.4;color:var(--cardink);margin:0}
+.tcard .bk{background:var(--accent);color:var(--bg)}
+.tcard .bk .then{font-family:var(--f-fell);font-size:21px;padding:6px 10px;border-radius:4px;background:rgba(0,0,0,.16);align-self:flex-start}
+.tcard .bk h3{font-family:var(--f-steel);font-stretch:80%;font-weight:760;font-size:30px;margin:8px 0 10px}
+.tcard .bk p{font-family:var(--f-steel);font-size:19px;line-height:1.4;margin:0;color:var(--bg)}
+
+/* chart table */
+.tbl{border-collapse:collapse;width:100%}
+.tbl th{text-align:left;font-weight:700;font-size:21px;color:var(--muted);padding:0 16px 10px 0;border-bottom:2px solid var(--rule)}
+.tbl td{font-size:24px;line-height:1.35;padding:12px 16px 12px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.tbl td:first-child{font-weight:700;width:30%}
+
+/* theme web */
+.web{position:relative;height:640px}
+.web svg.lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.web svg.lines line{stroke:var(--rule);stroke-width:3;stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 1s ease}
+.web.lit svg.lines line{stroke-dashoffset:0}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:500px;text-align:center;background:var(--bg);padding:20px}
+.hub h2{font-size:62px;margin:0 auto 10px;max-width:none}
+.hub p{font-size:24px;color:var(--muted);margin:0 auto}
+.node{position:absolute;width:330px;background:var(--panel);border:2px solid var(--rule);border-radius:6px;padding:14px 18px}
+.node b{display:block;font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:24px;color:var(--accent);margin-bottom:4px}
+.node span{font-size:19px;line-height:1.38;display:block}
+
+/* closer */
+.closer{justify-content:center}
+.closer .q{font-family:var(--f-steel);font-stretch:80%;font-weight:760;font-size:150px;line-height:1;letter-spacing:-.02em}
+.closer .old{font-family:var(--f-fell);font-size:76px;color:var(--accent);line-height:1.1;margin-top:20px}
+.closer p{font-size:32px;max-width:52ch}
 
 /* presenter chrome */
+#yr{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);opacity:0;pointer-events:none;z-index:20;perspective:1000px}
+#yr.show{opacity:1}
+#yr.fade{opacity:0;transition:opacity .45s ease}
+#yrNum{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:min(32vw,58vh);color:var(--accent);font-variant-numeric:tabular-nums;line-height:1;animation:none}
+#yr.show #yrNum{animation:tilt 1.2s ease-out}
+@keyframes tilt{from{transform:rotateX(50deg) translateZ(-300px)}}
 #corner{position:fixed;right:18px;bottom:12px;font-family:var(--f-steel);font-size:13px;color:var(--muted);z-index:5}
-#notes{position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;background:var(--panel);color:var(--ink);font-family:var(--f-steel);font-size:16px;line-height:1.5;padding:16px 26px 20px;border-top:2px solid var(--rule);z-index:10}
-#notes[hidden]{display:none}
-#notes p{font-size:16px;max-width:110ch;margin:0 0 8px;font-family:var(--f-steel)}
-#notes .t{font-weight:700}
+
+
+/* ---------- real 3D layer (three.js) ---------- */
+#gl{position:fixed;inset:0;z-index:0;pointer-events:none}
+#stage{z-index:1}
+.gl{position:relative}
+body.gl .fallback{display:none}
+body.gl .glstairs .floor{visibility:hidden}
+body.gl .poll .track{display:none}
+.glseal.big{width:440px;height:440px}
+.glseal.mid{width:300px;height:300px;flex:none}
+.glpile{height:400px}
+section[data-ledger] .glpile{height:380px}
+body:not(.gl) .glpile{display:none}
+.pollgrid{grid-template-columns:440px 1fr 400px!important;gap:34px!important}
+.prow{margin-bottom:22px}
+.plabel{display:block;font-size:28px}
+.plabel .pct{display:block;margin-top:2px}
+body.rolling #stage{opacity:0}
+body.gl #yr{background:transparent}
+@keyframes enter{from{opacity:0;transform:rotateY(-38deg) translateZ(-520px) translateX(260px)}}
+@keyframes enterBack{from{opacity:0;transform:rotateY(38deg) translateZ(-520px) translateX(-260px)}}
+.phone{animation:sway 7s ease-in-out infinite}
+@keyframes sway{50%{transform:rotateY(-6deg) rotateX(-2deg) translateZ(30px)}}
+.ccard,.tcard{transition:transform .3s}
+.ccard:hover,.tcard:hover{transform:translateZ(40px) rotateX(4deg)}
+#nav{position:fixed;left:14px;bottom:10px;z-index:6;display:flex;gap:6px}
+#nav button{all:unset;cursor:pointer;width:34px;height:30px;display:grid;place-items:center;border:1.5px solid var(--rule);border-radius:4px;color:var(--muted);font-family:var(--f-steel);font-size:16px}
+#nav button:hover{color:var(--ink);border-color:var(--accent)}
+#nav button:focus-visible{outline:2px solid var(--accent)}
+
+
+/* readability over the 3D background */
+section{text-shadow:0 0 22px var(--bg),0 0 8px var(--bg),0 0 2px var(--bg)}
+.side,.opt,.explain,#tree,.stair,.btn,.ctl,.timer,.why-btn,.weber-pick{text-shadow:none}
+body.explaining #tree{opacity:0;transition:opacity .2s}
+section[data-gen] .opt{padding:8px 20px;font-size:24px}
+section[data-gen] .fb{font-size:21px;margin-top:12px}
+section[data-gen] blockquote{font-size:25px;margin:2px 0 10px}
+/* quick 3D entrance, no overlap with the previous slide */
+section.enter{animation:enter .38s cubic-bezier(.2,.8,.2,1)}
+section.enterBack{animation:enterBack .38s cubic-bezier(.2,.8,.2,1)}
+@keyframes enter{from{opacity:.35;transform:rotateY(-9deg) translateZ(-140px) translateX(60px)}}
+@keyframes enterBack{from{opacity:.35;transform:rotateY(9deg) translateZ(-140px) translateX(-60px)}}
+
+/* family tree */
+section[data-gen]{padding-right:384px}
+section[data-gen] .timer{right:384px}
+section[data-gen] .pollgrid{grid-template-columns:330px 1fr 290px!important;gap:22px!important}
+section[data-gen] .plabel{font-size:24px}
+section[data-gen] .wcard .bk h3{font-size:27px}
+section[data-gen] .wcard .bk p{font-size:19px}
+section[data-gen] .choices{max-width:none}
+#tree{position:absolute;right:96px;top:50px;width:262px;bottom:226px;display:flex;flex-direction:column;perspective:900px}
+#tree.full{bottom:90px}
+#tree[hidden]{display:none}
+#tree .tt{font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);font-size:24px;color:var(--ink);margin-bottom:8px}
+.tnode{display:grid;grid-template-columns:58px 1fr;gap:10px;align-items:center;padding:6px 10px;border:2px solid var(--rule);border-radius:8px;background:var(--panel);transition:transform .5s,border-color .3s,opacity .3s;transform-style:preserve-3d}
+.tnode svg{width:58px;height:64px;border-radius:6px;background:var(--card)}
+.tnode b{display:block;font-family:var(--body);font-size:17px;line-height:1.2;color:var(--ink)}
+.tnode span{display:block;font-family:var(--f-steel);font-size:13px;color:var(--muted)}
+.tnode.unknown{opacity:.4;border-style:dashed}
+.tnode.unknown svg{filter:brightness(0) opacity(.35)}
+.tnode.unknown b,.tnode.unknown span{visibility:hidden}
+.tnode.current{border-color:var(--accent);transform:translateZ(36px) scale(1.04);box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.tnode.pop{animation:pop .8s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{transform:rotateX(-90deg) translateZ(40px);opacity:0}}
+.tgap{flex:1;min-height:14px;margin-left:38px;border-left:2px dashed var(--rule);display:flex;align-items:center;padding-left:12px;font-family:var(--f-steel);font-size:12px;color:var(--muted)}
+
+/* explain panel */
+.why-btn{all:unset;cursor:pointer;position:absolute;top:16px;right:384px;font-family:var(--f-steel);font-size:16px;padding:7px 12px;border:1.5px solid var(--rule);border-radius:5px;color:var(--muted)}
+.why-btn kbd{font-family:var(--f-steel);border:1px solid var(--rule);border-radius:3px;padding:0 5px;margin-left:6px}
+.why-btn:hover,.why-btn:focus-visible{color:var(--ink);border-color:var(--accent);outline:none}
+.explain{position:absolute;right:96px;top:50px;width:660px;background:var(--card);color:var(--cardink);border-radius:10px;padding:26px 30px;box-shadow:0 30px 60px rgba(0,0,0,.35);z-index:4;transform-origin:right center;transform:perspective(1200px) rotateY(-80deg);opacity:0;pointer-events:none;transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.explain.open{transform:perspective(1200px) rotateY(0);opacity:1;pointer-events:auto}
+.explain h3{font-family:var(--f-fell);font-weight:400;font-size:34px;color:#87231E;margin-bottom:12px}
+.explain p{font-family:var(--f-caslon);font-size:21px;line-height:1.45;color:var(--cardink);margin:0 0 12px;max-width:none}
+
+/* then vs now */
+.tcard .fr .who,.tcard .bk .who{font-family:var(--f-steel);font-size:14px;margin-bottom:2px}
+.tcard .fr .tap{margin-top:auto;align-self:flex-end;font-family:var(--f-steel);font-size:14px;color:var(--cardmuted)}
+.tcard .bk{padding:0!important;display:flex;flex-direction:column}
+.tcard .bk .half{flex:1;padding:12px 18px;display:flex;flex-direction:column;justify-content:center}
+.tcard .bk .th{background:var(--card);color:var(--cardink)}
+.tcard .bk .th .who{color:var(--cardmuted)}
+.tcard .bk .th h3{font-family:var(--f-fell);font-weight:400;font-size:23px;margin:2px 0 3px;color:var(--cardink)}
+.tcard .bk .th p{font-family:var(--f-caslon);font-size:16px;color:var(--cardink)}
+.tcard .bk .nw h3{font-size:23px;margin:2px 0 3px}
+.tcard .bk .nw p{font-size:16px}
+
+
+/* part dividers */
+.divider{justify-content:center}
+.divider .pnum{font-family:var(--f-steel);font-size:28px;color:var(--muted);margin-bottom:6px}
+.divider .ptitle{font-size:130px;max-width:none;margin-bottom:40px}
+.plist{list-style:none;counter-reset:p;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:14px 60px}
+.plist li{counter-increment:p;font-size:28px;display:flex;gap:14px;align-items:baseline}
+.plist li::before{content:counter(p);font-family:var(--display);font-stretch:var(--stretch);font-weight:var(--dweight);color:var(--accent);font-size:32px}
+/* argument line */
+.argline{display:grid;grid-template-columns:repeat(5,1fr);gap:34px;perspective:1200px;margin-top:6px}
+.ab{position:relative;background:var(--card);color:var(--cardink);border-radius:10px;padding:20px 20px 22px;min-height:250px;box-shadow:0 18px 34px rgba(0,0,0,.22);text-shadow:none;transform:rotateY(-8deg)}
+.ab.step{transform:rotateX(70deg) translateY(30px)}
+.ab.step.on{transform:rotateY(-8deg);transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .4s}
+.ab:not(:last-child)::after{content:"";position:absolute;right:-28px;top:50%;width:22px;height:22px;border-top:4px solid var(--accent);border-right:4px solid var(--accent);transform:translateY(-50%) rotate(45deg)}
+.ab .who{font-family:var(--f-steel);font-size:16px;color:var(--cardmuted)}
+.ab h3{font-family:var(--f-fell);font-weight:400;font-size:32px;line-height:1.1;margin:6px 0 10px;color:#87231E}
+.ab p{font-family:var(--f-caslon);font-size:20px;line-height:1.42;margin:0;color:var(--cardink)}
+
+
+.asker{display:inline-block;align-self:flex-start;font-family:var(--f-steel);font-size:19px;font-weight:600;color:var(--bg);background:var(--accent);padding:4px 12px;border-radius:4px;margin-bottom:12px;text-shadow:none}
+.likely{font-size:26px;line-height:1.45;max-width:64ch;border-left:4px solid var(--accent);padding-left:18px}
+.discq{font-size:22px;max-width:62ch;margin:0 0 14px}
+.discq .likely{display:block;font-size:20px;margin-top:6px;border-left:3px solid var(--accent);padding-left:14px;color:var(--muted)}
+
+
+.when .asker{margin:0 0 0 auto;align-self:center}
+section[data-gen] h2{font-size:42px!important;margin-bottom:14px}
+section[data-gen].scene p{font-size:24px}
+section[data-gen] .glpile,section[data-gen] .wcard{height:300px!important}
+section[data-gen] .prow{margin-bottom:10px}
+section[data-gen] .plabel{font-size:21px}
+section[data-gen] .plabel .pct{font-size:26px}
+section[data-gen] .discq{font-size:20px;margin-bottom:8px}
+section[data-gen] .discq .likely{font-size:18px}
+section[data-gen] .wcard .bk h3{font-size:25px}
+section[data-gen] .wcard .bk p{font-size:18px}
+section[data-gen] .year{font-size:96px}
+
+
+/* theme slides */
+.themeslide{justify-content:center;gap:22px}
+.bigq{border:1.5px dashed var(--rule);border-radius:8px;padding:18px 22px 26px;text-align:center;max-width:980px;margin:0 auto;width:100%;background:var(--panel)}
+.bigq .bar,.tbox .bar{background:#9B1E22;color:#F4E9DA;font-family:var(--f-steel);font-weight:700;font-size:20px;padding:9px 14px;border-radius:6px;margin-bottom:16px;text-shadow:none}
+.bigq h2{color:var(--ink);font-size:58px;max-width:22ch;margin:0 auto;line-height:1.12}
+.bigq.small{max-width:1100px;margin:0 0 20px}
+.bigq.small h2{font-size:40px;max-width:30ch}
+.themegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tbox{border:1.5px dashed var(--rule);border-radius:8px;padding:14px 16px 18px;text-align:center;background:var(--panel)}
+.tbox .bar.dim{background:#34404A}
+.tbox p{font-size:25px;line-height:1.35;margin:0 auto;max-width:30ch;font-weight:600}
+.tbox.goal p{font-size:21px;font-weight:400;max-width:60ch}
+.remind{font-size:24px;color:var(--accent);margin:-20px 0 30px}
+.linkq{font-size:36px;margin:4px 0 14px}
+.linkslide .likely{font-size:23px}
+
+
+.themeslide{justify-content:center}
+.tq{display:grid;grid-template-columns:1fr 440px;gap:40px;align-items:center}
+.tlabel{font-size:26px;color:var(--muted);margin-bottom:10px}
+.tbig{font-size:96px;line-height:1.02;max-width:15ch;margin-bottom:40px}
+.tflow{grid-template-columns:1fr;gap:12px}
+.tgoal{font-size:26px;color:var(--muted);max-width:none}
+.lastweek{font-size:38px;max-width:44ch;margin:8px 0 26px;color:var(--ink)}
+.lastweek cite{font-size:20px}
 
 @media (prefers-reduced-motion: reduce){
-  .step,.opt,body{transition:none} .opt.shake{animation:none} #ledger tr.new td{animation:none}
+  *{animation:none!important;transition:none!important}
 }
 </style>
 </head>
-<body data-era="now">
+<body data-era="candle">
 <div id="stage">
 
-<!-- ===================== OPENING: now ===================== -->
-<section data-era="now" data-year="2026">
-  <div class="title-wrap">
-    <h1>The Inheritance</h1>
-    <p>Max Weber, <em>The Protestant Ethic and the Spirit of Capitalism</em>: Kalberg's introduction and Chapter 1, plus a game about one family across four centuries.</p>
+<section data-era="candle" data-year="2026">
+  <div class="title">
+    <div>
+      <h1>The Inheritance</h1>
+      <p>Max Weber, <em>The Protestant Ethic and the Spirit of Capitalism</em>. Kalberg's introduction and Chapter 1, five votes, and one family across four centuries.</p>
+    </div>
+    <div class="gl glseal big" data-front="?|Am I saved?" data-back="$|Am I successful?" data-spin="1">
+    <div class="coin spin fallback" aria-hidden="true">
+      
+      <div class="face"><div><b>?</b><small>Am I saved?</small></div></div>
+      <div class="face back"><div><b>$</b><small>Am I successful?</small></div></div>
+    </div>
+    </div>
   </div>
   <div class="title-foot">
     <span>Presented by Arnav Rai</span>
-    <span class="keys"><span>→</span>next<span>N</span>notes<span>S</span>short version<span>F</span>full screen</span>
+    <span class="keys"><span>→</span>next<span>T</span>timer<span>E</span>explain<span>F</span>full screen</span>
   </div>
-  <aside class="notes"><p class="t">0:20</p><p>Quick intro. Tell the room there's a game in the middle, so they'll be voting with their hands. Press S before you start if you only have about 12 minutes; it skips the slides marked optional.</p></aside>
 </section>
 
-<section data-era="now" data-year="2026">
-  <h2>Hands up if…</h2>
-  <ul class="hands">
-    <li class="step">…one of the first things you asked your roommate was their major, or what they want to do.</li>
-    <li class="step">…you ate lunch while working at least once this week.</li>
-    <li class="step">…career prospects were part of why you chose your major.</li>
-  </ul>
-  <p class="step lede" style="margin-top:34px">Weber thinks habits like these have a family tree. Today we trace it.</p>
-  <aside class="notes"><p class="t">1:00</p><p>Reveal one line at a time and actually count hands. Kalberg's introduction opens with this: Americans compete with South Korea for the most hours worked, Europeans work about two-thirds as many, and in the US it's normal to ask about work right after meeting someone (his note 4). Weber would read all of this as a secular legacy of ascetic Protestantism.</p></aside>
-</section>
-
-<section data-era="now" data-year="2026">
-  <h2>Chapter 1: a pattern that won't go away</h2>
-  <ol class="chain">
-    <li class="step"><span><b>The pattern.</b> In Weber's Germany, capital owners, managers and skilled technical workers were overwhelmingly Protestant.</span></li>
-    <li class="step"><span><b>First guess: inherited wealth.</b> Rich trading cities turned Protestant in the 1500s and passed their money down. True, but only partly.</span></li>
-    <li class="step"><span><b>Money doesn't explain choices.</b> Catholic graduates chose classical schools over technical and business tracks. Catholic journeymen stayed in their crafts while Protestants moved into factories and management.</span></li>
-    <li class="step"><span><b>The minority rule fails.</b> Shut-out minorities usually pour into business: Huguenots, Quakers, Jews, Poles in Prussia. German Catholics didn't. Protestants did, as majority or minority.</span></li>
-    <li class="step"><span><b>So the cause is inside the religion.</b> Upbringing passes on a "learned inner quality" that steers what work people choose.</span></li>
-  </ol>
-  <aside class="notes"><p class="t">1:30</p><p>This is Weber's method in miniature: propose an explanation, test it against a comparison, throw it out if it fails. The school-track evidence comes from his student Martin Offenbacher's study of Baden (Kalberg p. 22). Point 5: Weber says the cause must be sought "mainly" in the religions' enduring inner character, not only in their political situation (pp. 70–71).</p></aside>
-</section>
-
-<section data-era="now" data-year="2026">
-  <h2>The strange part</h2>
-  <p class="lede">The Reformation didn't loosen religion's grip on people. It swapped a lenient Catholic Church for Calvinist control over every corner of life.</p>
-  <p class="lede step">And the richest, most commercial middle classes of Europe didn't just accept it. They defended it.</p>
-  <p class="step rule-top">So the easy story, pious Catholics versus worldly Protestants, is wrong. Calvinists were severe, intensely pious, and the best at business. Weber asks whether that piety and capitalism share an <em>inner affinity</em>.</p>
-  <aside class="notes"><p class="t">1:00</p><p>Chapter 1, pp. 68–75. The Catholic adage was "punish the heretic, be lenient with the sinner." Calvinist Geneva, Scotland and New England would feel unbearable to us. Carlyle called the middle class's defense of Puritanism "the last of our heroisms." Montesquieu said the English led the world in piety, commerce and freedom; Weber asks whether those are connected.</p></aside>
-</section>
-
-<section data-era="now" data-year="2026">
-  <h2>What Weber is actually asking</h2>
-  <div class="contrast">
-    <div class="no">
-      <h3>Why does capitalism exist?</h3>
-      <p>It has always existed: moneylenders, merchants, speculators and slave traders calculating profit in every civilization.</p>
-    </div>
+<section data-era="candle" data-year="2026" class="themeslide">
+  <div class="tq">
     <div>
-      <h3>Where did the spirit of modern capitalism come from?</h3>
-      <p>Work as a duty and an end in itself. Making more and more money while refusing to enjoy it. Wealth as proof you're good at your calling.</p>
+      <p class="tlabel">The question running through today</p>
+      <h2 class="tbig">Do we choose how we work, or did we inherit it?</h2>
+      <ol class="plist tflow">
+        <li>The reading: where our work ethic came from</li>
+        <li>The game: four generations of Ashworths</li>
+        <li>The answer, and a link to last week</li>
+      </ol>
+    </div>
+    <div class="gl glseal big" data-front="?|Chosen?" data-back="?|Inherited?" data-spin="1"><div class="coin spin fallback" aria-hidden="true"><div class="face"><div><b>?</b><small>Chosen?</small></div></div><div class="face back"><div><b>?</b><small>Inherited?</small></div></div></div></div>
+  </div>
+  <p class="tgoal rule-top">By the end, you should be able to answer it the way Weber would.</p>
+</section>
+
+<section data-era="candle" data-year="2026" class="divider">
+  <div class="pnum">Part 1</div>
+  <h2 class="ptitle">The reading</h2>
+  <p class="remind">Keep in mind: Do we choose how we work, or did we inherit it?</p>
+  <ol class="plist"><li>The big question</li><li>Traditionalism</li><li>Chapter 1</li><li>Who's who</li><li>The story, step by step</li><li>The whole argument</li></ol>
+</section>
+
+<section data-era="now" data-year="2026">
+  <h2>The big question</h2>
+  <p class="lede">Why did modern capitalism, the organized, work-obsessed, reinvest-everything kind, show up in the West and not elsewhere?</p>
+  <p class="lede step"><b>Weber's surprising answer:</b> a big part of it came from religion, not economics.</p>
+  <div class="contrast rule-top">
+    <div class="old step">
+      <div class="pic"><svg viewBox="0 0 260 170" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="4" opacity=".55"><ellipse cx="70" cy="140" rx="46" ry="12"/><ellipse cx="70" cy="122" rx="46" ry="12"/><ellipse cx="70" cy="104" rx="46" ry="12"/><path d="M150 150 L230 150 L230 70 L190 40 L150 70Z"/><path d="M175 150 L175 110 L205 110 L205 150"/></g></svg></div>
+      <h3>Not new: making money</h3>
+      <p>People have always traded, lent money and tried to get rich, everywhere.</p>
+    </div>
+    <div class="step">
+      <div class="pic"><svg viewBox="0 0 260 170" aria-hidden="true"><g fill="none" stroke="var(--accent)" stroke-width="4"><circle cx="70" cy="90" r="58"/><path d="M70 90 L70 52 M70 90 L98 104"/><rect x="150" y="36" width="90" height="118" rx="4"/><path d="M164 62 H226 M164 84 H226 M164 106 H226 M164 128 H206"/></g></svg></div>
+      <h3>New: an attitude</h3>
+      <p>Work is a moral duty. Keep making money, but don't spend it on fun. Success shows you're a good, competent person.</p>
     </div>
   </div>
-  <p class="step rule-top">Its opposite is <b>traditionalism</b>: work only enough to live the way you're used to. For Weber, that's the natural default. The spirit of capitalism had to be taught.</p>
-  <aside class="notes"><p class="t">1:15</p><p>Kalberg's most important point (pp. 14–17): Weber distinguishes capitalism from <em>modern</em> capitalism, and he isn't explaining either one. He's explaining the <em>spirit</em>, the ethic. Franklin had the spirit while running an old-fashioned handicraft print shop; Renaissance Florence had big capitalism without the spirit. So form and ethic can exist apart, and capitalism didn't produce its own spirit.</p></aside>
 </section>
 
-<section data-era="now" data-year="2026" data-optional>
-  <h2>Explanations Weber rejects</h2>
-  <table class="tbl">
-    <thead><tr><th>The explanation</th><th>Weber's objection</th></tr></thead>
-    <tbody>
-      <tr><td>Greed got stronger</td><td class="step">Greed is everywhere, in every era. Modern capitalism actually needs greed <em>restrained</em>.</td></tr>
-      <tr><td>Great entrepreneurs</td><td class="step">They exist everywhere too. Individuals can't break traditionalism; whole groups have to.</td></tr>
-      <tr><td>Sombart: general progress</td><td class="step">Spheres develop unevenly. England's law was less rational than Rome's, yet its economy led.</td></tr>
-      <tr><td>Marx: class interest</td><td class="step">Franklin's ethos came before a bourgeoisie existed, and it came from middle-class upstarts.</td></tr>
-      <tr><td>Technology, silver, cities</td><td class="step">China, India and the ancient world had them, without modern capitalism.</td></tr>
-    </tbody>
-  </table>
-  <aside class="notes"><p class="t">1:15 (optional)</p><p>Kalberg pp. 17–21. Weber's alternative is to bring culture and values into the debate as real causes. He also rejected Sombart's claim that Jews carried modern capitalism, calling their economic ethic traditional and speculative. Skip this slide in the short version and mention one example verbally.</p></aside>
-</section>
-
-<!-- ===================== THE GAME ===================== -->
 <section data-era="now" data-year="2026">
-  <h2>The Inheritance: a game</h2>
-  <p class="lede">You are one family, the Ashworths, over four centuries. Each generation faces a choice. Vote with your hands: A, B or C.</p>
-  <p>The family ledger at the bottom will record what each Ashworth did and why.</p>
-  <div class="sealrow step rule-top">
-    <div class="seal" aria-hidden="true">A</div>
-    <p style="margin:0">Before the first Ashworth was born, God already decided whether he was saved. The decree is sealed. Nothing you choose will change it.</p>
+  <h2>The opposite: traditionalism</h2>
+  <p>Work just enough to cover your normal needs, then stop. For Weber, that's the human default. His classic example:</p>
+  <div class="piece">
+    <div class="lane step" id="laneT">
+      <h3>Traditional worker, pay per piece goes up</h3>
+      <div class="hours" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <p>Hits their usual income sooner, goes home. <b>More pay, less work.</b></p>
+    </div>
+    <div class="lane step" id="laneM">
+      <h3>Modern worker, same raise</h3>
+      <div class="hours" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <p>Works more to earn more. Feels normal to us, but Weber says it had to be <b>taught</b>.</p>
+    </div>
   </div>
-  <aside class="notes"><p class="t">0:30</p><p>Set it up fast. The seal is random each time the page loads, and it's revealed at the end. Presenter: when the room votes, click the option with the most hands. You can click the others afterward to show their feedback too. Keys A, B, C also work.</p></aside>
 </section>
 
-<!-- Generation 1 -->
-<section data-era="candle" data-year="1563" data-ledger class="scene">
-  <div class="when"><span class="year">1563</span><span class="place">Colchester, England</span></div>
-  <h2>Thomas Ashworth, wool trader</h2>
-  <p>Thomas is back from exile in Calvin's Geneva. The sermon is the same every week: before the world began, God chose a few people for salvation and condemned the rest. No priest, no confession, no good deed can change the decree, and God's reasons are beyond us.</p>
-  <p class="step">Thomas has no way of knowing which he is. Weber says believers felt a loneliness we can barely imagine.</p>
-  <aside class="notes"><p class="t">0:45</p><p>Calvin's three pillars (Kalberg pp. 25–26): an all-powerful, distant God; double predestination; and the world existing only to glorify God. Abolishing confession matters: there's no longer any way to get relief.</p></aside>
+<section data-era="now" data-year="2026">
+  <h2>Chapter 1: Weber's detective work</h2>
+  <ol class="chain">
+    <li class="step"><span><b>The clue.</b> In Weber's Germany, Protestants were far more likely than Catholics to be business owners, managers and skilled technical workers.</span></li>
+    <li class="step"><span><b>Inherited money?</b> Only partly.</span></li>
+    <li class="step"><span><b>Look at choices.</b> Even Catholic kids chose humanities over business and tech schools. Something in how they were raised shaped what they chose.</span></li>
+    <li class="step"><span><b>Being a minority?</b> Minorities often go into business because other doors are closed. But Protestants did well whether they were the majority or the minority.</span></li>
+    <li class="step"><span><b>Verdict.</b> It has to be something inside the religion itself. The rest of the book finds out what.</span></li>
+  </ol>
 </section>
 
-<section data-era="candle" data-year="1563" data-ledger>
-  <h2>Thomas can't sleep. What does he do?</h2>
+<section data-era="now" data-year="2026">
+  <h2>Who's who</h2>
+  <div class="cast">
+    <div class="flip ccard step"><div class="inner">
+      <div class="side fr"><svg data-face="luther" viewBox="0 0 120 140"></svg><h3>Luther</h3><span class="d">1483–1546, Germany</span><span class="role">Reformer</span></div>
+      <div class="side bk"><svg class="sm" data-face="luther" viewBox="0 0 120 140"></svg><h3>Luther</h3><span class="role">Reformer</span><p>Started the Reformation. Invented the "calling": your job is a task from God. But stay in your place and don't chase wealth.</p></div></div></div>
+    <div class="flip ccard step"><div class="inner">
+      <div class="side fr"><svg data-face="calvin" viewBox="0 0 120 140"></svg><h3>Calvin</h3><span class="d">1509–1564, Geneva</span><span class="role">Reformer</span></div>
+      <div class="side bk"><svg class="sm" data-face="calvin" viewBox="0 0 120 140"></svg><h3>Calvin</h3><span class="role">Reformer</span><p>Taught predestination: God decided before you were born if you're saved. Nothing changes it, and you can't know.</p></div></div></div>
+    <div class="flip ccard step"><div class="inner">
+      <div class="side fr"><svg data-face="baxter" viewBox="0 0 120 140"></svg><h3>Baxter</h3><span class="d">1615–1691, England</span><span class="role">Puritan preacher</span></div>
+      <div class="side bk"><svg class="sm" data-face="baxter" viewBox="0 0 120 140"></svg><h3>Baxter</h3><span class="role">Puritan preacher</span><p>You can't earn salvation, but hard work and success can be signs you have it. Wasting time is the worst sin.</p></div></div></div>
+    <div class="flip ccard step"><div class="inner">
+      <div class="side fr"><svg data-face="franklin" viewBox="0 0 120 140"></svg><h3>Franklin</h3><span class="d">1706–1790, Philadelphia</span><span class="role">Printer and statesman</span></div>
+      <div class="side bk"><svg class="sm" data-face="franklin" viewBox="0 0 120 140"></svg><h3>Franklin</h3><span class="role">Printer and statesman</span><p>Same habits, no theology. "Time is money." Weber's example of the spirit of capitalism.</p></div></div></div>
+    <div class="flip ccard step"><div class="inner">
+      <div class="side fr"><svg data-face="weber" viewBox="0 0 120 140"></svg><h3>Weber</h3><span class="d">1864–1920, Germany</span><span class="role">Sociologist, the author</span></div>
+      <div class="side bk"><svg class="sm" data-face="weber" viewBox="0 0 120 140"></svg><h3>Weber</h3><span class="role">Sociologist, the author</span><p>Wrote the book in 1904–05. Traces how these religious ideas built our modern work ethic.</p></div></div></div>
+    <div class="flip ccard step"><div class="inner">
+      <div class="side fr"><svg data-face="kalberg" viewBox="0 0 120 140"></svg><h3>Kalberg</h3><span class="d">Today, USA</span><span class="role">Translator and editor</span></div>
+      <div class="side bk"><svg class="sm" data-face="kalberg" viewBox="0 0 120 140"></svg><h3>Kalberg</h3><span class="role">Translator and editor</span><p>Translated our edition and wrote the introduction. Explains Weber and defends him from critics.</p></div></div></div>
+  </div>
+</section>
+
+<section data-era="now" data-year="2026">
+  <h2>The story, step by step</h2>
+  <div class="stairs gl glstairs">
+    <div class="floor">
+      <div class="stair step" style="--h:0;left:20px;top:430px"><h3>Catholic</h3><p>Sin, confess, get forgiven, repeat. Strict discipline is only for monks.</p></div>
+      <div class="stair step" style="--h:40;left:242px;top:366px"><h3>Luther</h3><p>Your job is a calling from God. But stay in your place.</p></div>
+      <div class="stair step" style="--h:80;left:464px;top:302px"><h3>Calvin</h3><p>Predestination: already saved or damned, and you can't know which.</p></div>
+      <div class="stair step" style="--h:120;left:686px;top:238px"><h3>Baxter</h3><p>Hard work and success are signs you're one of the saved.</p></div>
+      <div class="stair step" style="--h:160;left:908px;top:174px"><h3>Franklin</h3><p>Religion fades, the habit stays: time is money.</p></div>
+      <div class="stair step" style="--h:200;left:1130px;top:110px"><h3>You</h3><p>Capitalism runs on its own. We have to work.</p></div>
+    </div>
+  </div>
+</section>
+
+<section data-era="now" data-year="2026">
+  <h2>The whole argument in one line</h2>
+  <div class="argline">
+    <div class="ab step"><span class="who">Calvin, 1500s</span><h3>Predestination</h3><p>Your fate is sealed, and you can't know it.</p></div>
+    <div class="ab step"><span class="who">Believers</span><h3>Anxiety</h3><p>"Am I among the saved?"</p></div>
+    <div class="ab step"><span class="who">Baxter, 1600s</span><h3>Work as a sign</h3><p>This-worldly asceticism: every Christian a monk for life.</p></div>
+    <div class="ab step"><span class="who">Franklin, 1700s</span><h3>Spirit of capitalism</h3><p>Same habits, no religion. Time is money.</p></div>
+    <div class="ab step"><span class="who">Today</span><h3>Steel-hard casing</h3><p>The system runs on its own. Often called the iron cage.</p></div>
+  </div>
+  <p class="lede step rule-top">Weber's famous line: the Puritans <b>wanted</b> to work in a calling. We <b>have</b> to.</p>
+  <p class="small step">Kalberg's reminder: religion is one important cause Weber says people ignored, not the only one.</p>
+</section>
+
+<section data-era="candle" data-year="2026" class="divider">
+  <div class="pnum">Part 2</div>
+  <h2 class="ptitle">The game and discussion</h2>
+  <p class="remind">Keep in mind: Do we choose how we work, or did we inherit it?</p>
+  <ol class="plist"><li>A quick vote</li><li>The Ashworth family game</li><li>Then vs. now</li><li>Discussion</li><li>Back to our big question</li><li>Link to last week</li></ol>
+</section>
+
+<section data-era="now" data-year="2026" class="poll" data-poll="rich" data-pick="a">
+  <div class="asker">Your answer</div>
+  <h2>You win $10 million tomorrow. Do you keep working?</h2>
+  <div class="pollgrid">
+    <div>
+      <div class="prow" data-o="a"><div class="plabel"><span class="lt"><span class="k">A</span>Yes, I'd keep working<span class="weber-pick">Weber's pick</span></span><span class="pct">0%</span></div><div class="track"><div class="slab"><div class="fill"></div></div></div><div class="ctl"><button data-d="-1" aria-label="Remove a vote for A">−</button><input type="number" min="0" value="0" aria-label="Votes for A"><button data-d="1" aria-label="Add a vote for A">+</button><span>key 1</span></div></div>
+      <div class="prow" data-o="b"><div class="plabel"><span class="lt"><span class="k">B</span>No, I'd stop<span class="weber-pick">Weber's pick</span></span><span class="pct">0%</span></div><div class="track"><div class="slab"><div class="fill"></div></div></div><div class="ctl"><button data-d="-1" aria-label="Remove a vote for B">−</button><input type="number" min="0" value="0" aria-label="Votes for B"><button data-d="1" aria-label="Add a vote for B">+</button><span>key 2</span></div></div>
+    </div>
+    <div class="gl glpile" aria-hidden="true"></div>
+    <div class="flip wcard"><div class="inner">
+      <div class="side fr"><svg class="mini-portrait" data-face="weber" viewBox="0 0 120 140"></svg><p>What does Weber predict?</p><span class="small">Press W to show or hide</span></div>
+      <div class="side bk"><h3>Yes.</h3><p>Most people today would keep working. That urge is the <b>spirit of capitalism</b>.</p><p>For most of history, people would have stopped.</p></div>
+    </div></div>
+  </div>
+</section>
+
+<section data-era="now" data-year="2026" data-gen="-1">
+  <h2>The game: The Inheritance</h2>
+  <div class="howto">
+    <ol>
+      <li>You're one family, the Ashworths, over four generations.</li>
+      <li>Each generation makes one choice.</li>
+      <li>The family ledger at the bottom records <b>what they did</b> and <b>why</b>.</li>
+      <li>Before the first Ashworth was born, God sealed his fate. We open it at the end.</li>
+    </ol>
+    <div class="gl glseal mid" data-front="A|sealed 1563"><div class="coin small fallback" aria-hidden="true"><div class="face"><div><b>A</b><small>sealed 1563</small></div></div><div class="face back"></div></div></div>
+  </div>
+</section>
+
+<section data-gen="0" data-era="candle" data-year="1563" data-ledger class="scene">
+  <div class="when"><span class="year">1563</span><span class="place">Colchester, England</span><div class="asker">You decide for Thomas</div></div>
+  <h2>Thomas Ashworth, wool trader, can't sleep</h2>
+  <p>His preacher says God picked the saved before the world began. No priest, no confession, no good deed can change it. Thomas can't know which he is. What does he do?</p>
   <div class="choices">
-    <button class="opt"><span class="k">A</span><span>Confess to a priest and do penance</span>
-      <span class="why">There's no one to confess to. <b>Calvinism abolished confession.</b> A medieval Catholic could balance out sins with penance and good works, a "series of isolated actions." Thomas can't.</span></button>
-    <button class="opt"><span class="k">B</span><span>Do more good works to earn his place</span>
-      <span class="why">Pointless in Calvin's system. <b>The decree was made before time began</b>, so works change nothing.</span></button>
-    <button class="opt hist" data-row="0" data-who="Thomas" data-yr="1563" data-did="Holds on to faith and prays" data-whyl="Calvin's advice: believe you're chosen"><span class="k">C</span><span>Hold on to faith and simply consider himself chosen</span>
-      <span class="why">That's what Calvin advised, and it worked for Calvin, who was sure he was among the elect. <b>For ordinary believers the anxiety didn't go away.</b> Kalberg calls it an impasse, and something had to give.</span></button>
+    <button class="opt"><span class="k">A</span><span>Thomas confesses to a priest and does penance</span>
+      <span class="why">There's no one to confess to. <b>Calvinism abolished confession</b>, the Catholic way to reset after sin.</span></button>
+    <button class="opt"><span class="k">B</span><span>Thomas does more good works to earn his place</span>
+      <span class="why">Pointless. <b>The decree was made before time began</b>, so works change nothing. (Most rooms pick this: it's Catholic logic.)</span></button>
+    <button class="opt hist" data-row="0" data-did="Holds on to faith and prays" data-whyl="Calvin's advice: believe you're chosen"><span class="k">C</span><span>Thomas holds on to faith and believes he's chosen</span>
+      <span class="why">Calvin's advice. It worked for Calvin. <b>For ordinary believers the anxiety didn't go away</b>, and something had to give.</span></button>
   </div>
   <div class="fb" aria-live="polite"></div>
-  <aside class="notes"><p class="t">0:45</p><p>Most rooms pick B. That's the useful mistake: it's the Catholic logic of earning salvation. C writes the first ledger line.</p></aside>
+  <button class="why-btn">Why this goes in the ledger <kbd>E</kbd></button>
+  <div class="explain"><h3>Why only C goes in the ledger</h3><p><b>A is impossible.</b> Calvinism abolished confession, so there is no priest to forgive him.</p><p><b>B is pointless.</b> The decree was made before time began. Trying to earn salvation is Catholic thinking.</p><p><b>C is what Calvin told believers to do:</b> have faith and consider yourself chosen. It's the real historical path, which is why it's recorded. But it doesn't cure the anxiety, and that sets up Baxter.</p></div>
 </section>
 
-<section data-era="candle" data-year="1563" data-ledger class="disc">
+<section data-gen="0" data-era="candle" data-year="1563" data-ledger class="disc">
+  <button class="timer" data-sec="90">1:30</button>
   <div class="count">Discussion 1 of 4</div>
-  <h2>Thomas's God decided everything in advance. Logically, that should make people give up. Why did it make Puritans work harder instead?</h2>
-  <div class="hint-head step">If the room goes quiet</div>
-  <ul>
-    <li class="step">Pastors needed something to tell desperate believers, so later Puritan ministers revised Calvin.</li>
-    <li class="step">Their answer: look for <em>signs</em>. If God gives you the strength to work tirelessly and live righteously, that strength must come from Him.</li>
-    <li class="step">Work doesn't <em>earn</em> salvation. It proves it, to yourself.</li>
-  </ul>
-  <aside class="notes"><p class="t">1:30</p><p>Kalberg pp. 26–33. This is the heart of the book. A good follow-up if someone says "anxiety": critics called anxiety "too thin a thread," and Kalberg replies that it's only one link. The signs, the sanctification of work, and the Puritan style of life all matter.</p></aside>
+  <h2>If God already decided who's saved, why did Puritans work <em>harder</em> instead of giving up?</h2>
+  <div class="hint-head step">Likely answer</div>
+  <p class="likely step">Preachers like Baxter taught that hard work and success were <b>signs</b> you were saved. Work couldn't earn salvation, but it reassured you that you had it.</p>
 </section>
 
-<!-- Generation 2 -->
-<section data-era="ledger" data-year="1655" data-ledger class="scene">
-  <div class="when"><span class="year">1655</span><span class="place">Kidderminster, a weaving town</span></div>
-  <h2>Richard Ashworth, cloth merchant</h2>
-  <p>Richard's minister is Richard Baxter, the Puritan preacher Weber quotes more than anyone. Baxter's version of the faith: everyone must work in a calling, even the rich, because God commands it. Success in your calling may be a sign of God's favor. Enjoying the money is not.</p>
-  <blockquote class="step">"Waste of time is thus the first and in principle the deadliest of sins."<cite>Weber on Baxter (Parsons translation, 1930)</cite></blockquote>
-  <aside class="notes"><p class="t">0:45</p><p>Baxter really was the minister in Kidderminster, a town full of weavers, from 1641 to 1660. Kalberg pp. 27–33: work is sanctified, wealth becomes providential, and systematic work and profit become the most visible signs of election.</p></aside>
+<section data-gen="1" data-era="ledger" data-year="1655" data-ledger class="poll" data-poll="raise" data-pick="b" data-row="1" data-did="Hires Puritan weavers from his church" data-whyl="Raises failed; they see work as a calling">
+  <div class="when"><span class="year">1655</span><span class="place">Kidderminster, Baxter's parish</span><div class="asker">Predict what the weavers did</div></div>
+  <h2>Richard Ashworth pays his weavers more per piece. What do the weavers do?</h2>
+  <div class="pollgrid">
+    <div>
+      <div class="prow" data-o="a"><div class="plabel"><span class="lt"><span class="k">A</span>They work the same hours and take the raise<span class="weber-pick">Weber's pick</span></span><span class="pct">0%</span></div><div class="track"><div class="slab"><div class="fill"></div></div></div><div class="ctl"><button data-d="-1" aria-label="Remove a vote for A">−</button><input type="number" min="0" value="0" aria-label="Votes for A"><button data-d="1" aria-label="Add a vote for A">+</button></div></div>
+      <div class="prow" data-o="b"><div class="plabel"><span class="lt"><span class="k">B</span>They earn the same and go home early<span class="weber-pick">Weber's pick</span></span><span class="pct">0%</span></div><div class="track"><div class="slab"><div class="fill"></div></div></div><div class="ctl"><button data-d="-1" aria-label="Remove a vote for B">−</button><input type="number" min="0" value="0" aria-label="Votes for B"><button data-d="1" aria-label="Add a vote for B">+</button></div></div>
+    </div>
+    <div class="gl glpile" aria-hidden="true"></div>
+    <div class="flip wcard" style="height:380px"><div class="inner">
+      <div class="side fr"><svg class="mini-portrait" data-face="baxter" viewBox="0 0 120 140"></svg><p>What did the weavers really do?</p><span class="small">Press W to show or hide</span></div>
+      <div class="side bk"><h3>They went home early.</h3><p>More pay, less work. That's <b>traditionalism</b>.</p><p>Money can't fix it, so Richard hires Puritans who see work as a duty to God.</p></div>
+    </div></div>
+  </div>
+  <button class="why-btn">Why this goes in the ledger <kbd>E</kbd></button>
+  <div class="explain"><h3>Why B, and why the church?</h3><p><b>B is what Weber says happened.</b> Traditional workers want their usual income, not more. A raise lets them earn it sooner, so they go home. That's traditionalism.</p><p><b>A is the modern assumption.</b> Weber says it isn't natural; it had to be taught.</p><p><b>The link to the church:</b> if money can't make traditional workers work harder, Richard needs workers who already see work as a duty to God. Puritans from his own congregation do. That's why the ethic had to spread to workers, not just owners.</p></div>
 </section>
 
-<section data-era="ledger" data-year="1655" data-ledger>
-  <h2>Richard's best year ever: profits double. What does he do?</h2>
+<section data-gen="1" data-era="ledger" data-year="1655" data-ledger class="poll disc" data-poll="life" data-pick="b">
+  <button class="timer" data-sec="90">1:30</button>
+  <div class="count">Your answer, then Discussion 2 of 4</div>
+  <h2>Whose life would you rather have: the weavers' or Richard Ashworth's?</h2>
+  <p class="discq step"><b>Discuss:</b> which of them is being irrational? <span class="likely">Likely answer: it depends on the goal. For enjoying life, Richard is irrational. In Weber's sense he's "rational" because he's methodical.</span></p>
+  <div class="pollgrid">
+    <div>
+      <div class="prow" data-o="a"><div class="plabel"><span class="lt"><span class="k">A</span>The weavers: enough, then free<span class="weber-pick">Weber's pick</span></span><span class="pct">0%</span></div><div class="track"><div class="slab"><div class="fill"></div></div></div><div class="ctl"><button data-d="-1" aria-label="Remove a vote for A">−</button><input type="number" min="0" value="0" aria-label="Votes for A"><button data-d="1" aria-label="Add a vote for A">+</button></div></div>
+      <div class="prow" data-o="b"><div class="plabel"><span class="lt"><span class="k">B</span>Richard: always more, never enjoyed<span class="weber-pick">Weber's pick</span></span><span class="pct">0%</span></div><div class="track"><div class="slab"><div class="fill"></div></div></div><div class="ctl"><button data-d="-1" aria-label="Remove a vote for B">−</button><input type="number" min="0" value="0" aria-label="Votes for B"><button data-d="1" aria-label="Add a vote for B">+</button></div></div>
+    </div>
+    <div class="gl glpile" aria-hidden="true"></div>
+    <div class="flip wcard" style="height:380px"><div class="inner">
+      <div class="side fr"><svg class="mini-portrait" data-face="weber" viewBox="0 0 120 140"></svg><p>What does Weber predict?</p><span class="small">Press W to show or hide</span></div>
+      <div class="side bk"><h3>Richard's.</h3><p>Modern people admire Richard's life, even if they'd enjoy the weavers' more.</p></div>
+    </div></div>
+  </div>
+</section>
+
+<section data-gen="2" data-era="broadside" data-year="1748" data-ledger class="scene">
+  <div class="when"><span class="year">1748</span><span class="place">Philadelphia</span><div class="asker">You decide for Samuel</div></div>
+  <h2>Samuel Ashworth, printer, is rich enough to retire at 50</h2>
+  <blockquote>"Remember that time is money."<cite>Benjamin Franklin, Advice to a Young Tradesman (1748)</cite></blockquote>
   <div class="choices">
-    <button class="opt"><span class="k">A</span><span>Buy a country estate and a title, like the gentry</span>
-      <span class="why">Weber calls this the "feudalization of wealth," and Puritans despised it. <b>Aristocratic luxury pulls you away from God</b>, and the money stops producing anything.</span></button>
-    <button class="opt"><span class="k">B</span><span>Retire. He's rich enough</span>
-      <span class="why">Baxter says no. <b>Even the wealthy must work</b>, and being unwilling to work is a sign you're <em>not</em> among the elect.</span></button>
-    <button class="opt hist" data-row="1" data-who="Richard" data-yr="1655" data-did="Reinvests every profit, lives plainly" data-whyl="Success might be a sign he's elect"><span class="k">C</span><span>Buy more looms, keep working, live plainly</span>
-      <span class="why">Wealth from work is a sign of God's blessing, but spending it on yourself is a temptation. <b>Earn a lot, spend little, reinvest:</b> religion has just produced a machine for building capital.</span></button>
+    <button class="opt"><span class="k">A</span><span>Samuel sells the shop and enjoys his savings</span><span class="why">Franklin would object: idle money could have made more. <b>Wasting it is close to a moral failing.</b></span></button>
+    <button class="opt"><span class="k">B</span><span>Samuel keeps working because God commands it</span><span class="why">His great-grandfather's reason. <b>Samuel doesn't think that way anymore.</b></span></button>
+    <button class="opt hist" data-row="2" data-did="Keeps working and expanding the shop" data-whyl="Duty, honesty, &quot;time is money&quot;"><span class="k">C</span><span>Samuel keeps working: idleness is a vice, time is money</span><span class="why">Same habits, new reason. The ethic now has a <b>"utilitarian accent."</b> Families and schools carried it after the faith faded.</span></button>
   </div>
   <div class="fb" aria-live="polite"></div>
-  <aside class="notes"><p class="t">0:40</p><p>Kalberg pp. 37–38. "Feudalization of wealth" is Weber's phrase for the nouveaux riches buying titles and land.</p></aside>
+  <button class="why-btn">Why this goes in the ledger <kbd>E</kbd></button>
+  <div class="explain"><h3>Why only C goes in the ledger</h3><p><b>A breaks the ethic.</b> For Franklin, idle money and idle time are waste.</p><p><b>B is out of date.</b> By 1748 the religious reason belongs to his great-grandparents. Families and schools now carry the habits, not theology.</p><p><b>C is Franklin's version:</b> same discipline, new reason. Weber calls it an ethic with a "utilitarian accent."</p></div>
 </section>
 
-<section data-era="ledger" data-year="1655" data-ledger>
-  <h2>To get orders out faster, Richard pays his weavers more per piece. Predict: what happens?</h2>
+<section data-gen="3" data-era="steel" data-year="2026" data-ledger>
+  <div class="when"><span class="year">2026</span><span class="place">Chicago</span><div class="asker">You decide for Maya</div></div>
+  <h2>Maya Ashworth, analyst, is offered a promotion: more money, more hours</h2>
   <div class="choices">
-    <button class="opt"><span class="k">A</span><span>They work more hours to earn more</span>
-      <span class="why">That's the modern assumption, and it's exactly the one Weber says <b>isn't natural</b>.</span></button>
-    <button class="opt hist" data-row="-1"><span class="k">B</span><span>They work fewer hours</span>
-      <span class="why"><b>Weber's example of traditionalism.</b> Workers earn their usual amount sooner and go home: people want to live as they're used to, not earn ever more. So Richard hires weavers from his own congregation, who treat work as a calling.</span></button>
-    <button class="opt"><span class="k">C</span><span>They demand an even higher rate</span>
-      <span class="why">Possible, but Weber's point is stranger: <b>more pay produced less work</b>.</span></button>
+    <button class="opt locked" aria-disabled="true"><span class="k">A</span><span>Maya turns it down and works only what she needs</span><span class="why">Not really available. Rent, loans, a market that doesn't care. The "grinding mechanism" sets the terms now.</span></button>
+    <button class="opt locked" aria-disabled="true"><span class="k">B</span><span>Maya takes it, for the glory of God</span><span class="why">That reason left long ago. The calling now "prowls about in our lives like the ghost of dead religious beliefs."</span></button>
+    <button class="opt hist" data-row="3" data-did="Takes the promotion" data-whyl="Because she has to"><span class="k">C</span><span>Maya takes it</span><span class="why">The only button that works. <b>"The Puritan wanted to work in a calling; we are forced to do so."</b> Kalberg: the "steel-hard casing."</span></button>
   </div>
   <div class="fb" aria-live="polite"></div>
-  <aside class="notes"><p class="t">0:40</p><p>Weber's actual piece-rate example comes from farm labor in his own day (Kalberg p. 15, PE p. 85), but the logic is the same. Point out that the room's prediction, if it's A, shows how much of the "spirit" we've inherited.</p></aside>
+  <button class="why-btn">Why this goes in the ledger <kbd>E</kbd></button>
+  <div class="explain"><h3>Why only C goes in the ledger</h3><p><b>A isn't really available.</b> Rent, loans and the market set the terms now.</p><p><b>B is gone.</b> Nobody works for the glory of God anymore; only the "ghost" of the calling remains.</p><p><b>C is the only button that works.</b> She takes it because she has to. That's Weber's steel-hard casing: "we are forced to do so."</p></div>
 </section>
 
-<section data-era="ledger" data-year="1655" data-ledger class="disc">
-  <div class="count">Discussion 2 of 4</div>
-  <h2>The weavers took their raise as free time. Richard never stops working and never enjoys his money. Which of them is being irrational?</h2>
-  <div class="hint-head step">If the room goes quiet</div>
-  <ul>
-    <li class="step">Weber: from the point of view of simply enjoying life, the Puritan's endless acquisition looks irrational.</li>
-    <li class="step">Traditionalism is the default. Weber says the spirit of capitalism comes only from a long process of education and socialization.</li>
-    <li class="step">Which of the two would you rather be?</li>
-  </ul>
-  <aside class="notes"><p class="t">1:30</p><p>Weber uses "rational" to mean systematic or methodical, not "better" (Kalberg note 13). Richard is rational in that sense while being irrational in the everyday sense. That tension is the whole book.</p></aside>
-</section>
-
-<!-- Generation 3 -->
-<section data-era="broadside" data-year="1748" data-ledger class="scene">
-  <div class="when"><span class="year">1748</span><span class="place">Philadelphia</span></div>
-  <h2>Samuel Ashworth, printer</h2>
-  <p>The family has crossed the Atlantic. Samuel rarely thinks about predestination, but his parents raised him to rise early, waste nothing, keep honest accounts and never sit idle. This year a local printer publishes advice that Samuel pins above his press.</p>
-  <blockquote class="step">"Remember that time is money."<cite>Benjamin Franklin, <em>Advice to a Young Tradesman</em> (1748)</cite></blockquote>
-  <aside class="notes"><p class="t">0:40</p><p>Franklin is Weber's main example of the spirit of capitalism (Kalberg pp. 15, 39–41). His key point: the ethic outlived its religious root because families, schools and community groups became its new "carriers."</p></aside>
-</section>
-
-<section data-era="broadside" data-year="1748" data-ledger>
-  <h2>At 50, Samuel has enough to live comfortably for the rest of his life. What does he do?</h2>
-  <div class="choices">
-    <button class="opt"><span class="k">A</span><span>Sell the shop and enjoy his savings</span>
-      <span class="why">Franklin would object: money left idle is money that could have produced more, and <b>wasting it is close to a moral failing</b>.</span></button>
-    <button class="opt"><span class="k">B</span><span>Keep working, because God commands it</span>
-      <span class="why">His great-great-grandfather would have said that. <b>Samuel doesn't think in those terms anymore.</b></span></button>
-    <button class="opt hist" data-row="2" data-who="Samuel" data-yr="1748" data-did="Keeps working and expanding the shop" data-whyl="Duty, honesty, &quot;time is money&quot;"><span class="k">C</span><span>Keep working: idleness is a vice, and time is money</span>
-      <span class="why">Same habits, new reason. Weber calls it an ethos with a <b>"utilitarian accent"</b>: still a duty, still about character, but the religious root has faded.</span></button>
-  </div>
-  <div class="fb" aria-live="polite"></div>
-  <aside class="notes"><p class="t">0:30</p><p>Look at the ledger's "why" column now. That's the point of the game: the actions barely change, the reasons do.</p></aside>
-</section>
-
-<section data-era="broadside" data-year="1748" data-ledger data-optional class="disc">
-  <div class="count">Discussion 3 of 4</div>
-  <h2>Samuel kept the habits but lost the theology. What keeps a value alive after its original reason is gone? Name one thing you do just because that's how you were raised.</h2>
-  <div class="hint-head step">If the room goes quiet</div>
-  <ul>
-    <li class="step">Kalberg: families, schools and civic groups became the new carriers of Puritan values.</li>
-    <li class="step">Chapter 1 says the same: upbringing shapes which school track a child picks.</li>
-  </ul>
-  <aside class="notes"><p class="t">1:15 (optional)</p><p>If you're short on time, skip this one; the final question covers similar ground. Kalberg pp. 40, 48–49 on "social carriers" and "legacies."</p></aside>
-</section>
-
-<!-- Generation 4 -->
-<section data-era="steel" data-year="2026" data-ledger class="scene">
-  <div class="when"><span class="year">2026</span><span class="place">Chicago</span></div>
-  <h2>Maya Ashworth, analyst</h2>
-  <p>Maya works sixty-hour weeks, answers email at midnight and schedules her workouts like meetings. She has never once thought about predestination.</p>
-  <p class="step">Ask her why she works this hard, and she'll shrug.</p>
-  <aside class="notes"><p class="t">0:30</p><p>Notice the screen: the color has drained out. That's on purpose.</p></aside>
-</section>
-
-<section data-era="steel" data-year="2026" data-ledger>
-  <h2>Maya is offered a promotion: more money, more hours. What does she do?</h2>
-  <div class="choices">
-    <button class="opt locked" aria-disabled="true"><span class="k">A</span><span>Turn it down and work only what she needs</span>
-      <span class="why">Not really available. Rent, loans and a market that doesn't ask how she feels. Weber: the "grinding mechanism" sets the terms now.</span></button>
-    <button class="opt locked" aria-disabled="true"><span class="k">B</span><span>Take it, for the glory of God</span>
-      <span class="why">That reason left a long time ago. Weber: the duty of the calling now "prowls about in our lives like the ghost of dead religious beliefs."</span></button>
-    <button class="opt hist" data-row="3" data-who="Maya" data-yr="2026" data-did="Takes the promotion" data-whyl="Because she has to"><span class="k">C</span><span>Take it</span>
-      <span class="why">The only button that works. <b>"The Puritan wanted to work in a calling; we are forced to do so."</b> Kalberg's "steel-hard casing," the old translation's iron cage.</span></button>
-  </div>
-  <div class="fb" aria-live="polite"></div>
-  <aside class="notes"><p class="t">0:40</p><p>Let someone shout A or B, click it, and let the button refuse. Quotes are from Parsons' 1930 translation; Kalberg's version is on p. 177 of our edition.</p></aside>
-</section>
-
-<section data-era="steel" data-year="2026" data-ledger>
-  <h2>Remember Thomas's decree?</h2>
+<section data-gen="3" data-era="steel" data-year="2026" data-ledger data-fillall>
+  <h2>Remember Thomas's sealed fate?</h2>
   <div class="sealrow">
-    <div class="seal" id="seal" aria-hidden="true">A</div>
+    <div class="gl glseal mid" id="sealGL" data-front="A|sealed 1563"><div class="coin small fallback" id="seal" aria-hidden="true"><div class="face"><div><b>A</b><small>sealed 1563</small></div></div><div class="face back"><div><b id="decreeLetter">?</b></div></div></div></div>
     <div>
       <button class="btn" id="breakSeal">Break the seal</button>
-      <div id="decreeWrap" hidden>
-        <div class="small">God's decree for Thomas Ashworth, 1563</div>
-        <div id="decreeOut"></div>
-      </div>
+      <div id="decreeWrap" hidden><div class="small">God's decree for Thomas Ashworth</div><div id="decreeOut"></div></div>
     </div>
   </div>
-  <p class="step rule-top">It doesn't matter which. Nothing the Ashworths did could change it, yet four centuries of work grew out of a question nobody could answer. Weber's point about <b>unintended consequences</b>: the Puritans would be horrified by Maya's life.</p>
-  <aside class="notes"><p class="t">0:45</p><p>The decree is random (one in four comes out Elect, since Calvin said only a few are saved). Either result makes the same point. Kalberg pp. 49–50: Puritan wealth eventually undermined the frugal, God-centered life that produced it.</p></aside>
-</section>
-
-<!-- ===================== WRAP-UP ===================== -->
-<section data-era="steel" data-year="2026">
-  <h2>You just played Kalberg's chart</h2>
-  <table class="tbl">
-    <thead><tr><th>Stage</th><th>Century</th><th>Carried by</th><th>Type of action</th><th>Religious?</th><th>Our Ashworth</th></tr></thead>
-    <tbody>
-      <tr><td>Calvin: fatalism from predestination</td><td>16th</td><td>small sects</td><td>value-rational</td><td>yes</td><td>Thomas</td></tr>
-      <tr><td>Baxter: the Protestant ethic</td><td>17th</td><td>churches and sects</td><td>value-rational, methodical</td><td>yes</td><td>Richard</td></tr>
-      <tr><td>Franklin: the spirit of capitalism</td><td>18th</td><td>communities</td><td>value-rational, methodical</td><td>no</td><td>Samuel</td></tr>
-      <tr><td>The specialist: capitalism as a "cosmos"</td><td>20th</td><td>industrial society</td><td>means-end rational</td><td>no</td><td>Maya</td></tr>
-    </tbody>
-  </table>
-  <p class="small" style="margin-top:20px">Adapted from Kalberg's table of the stages of Weber's analysis, p. 44.</p>
-  <aside class="notes"><p class="t">0:50</p><p>Value-rational means acting for the sake of a value. Means-end rational means calculating how to get what you want. The arrow from Thomas to Maya is the routinization of motives: the same methodical life, emptied of its original meaning.</p></aside>
-</section>
-
-<section data-era="steel" data-year="2026" data-optional>
-  <h2>Common objections, and the replies</h2>
-  <table class="tbl">
-    <thead><tr><th>The critics say</th><th>Weber and Kalberg reply</th></tr></thead>
-    <tbody>
-      <tr><td>"Weber is an idealist"</td><td class="step">He says a one-sided cultural explanation is no better than a one-sided materialist one.</td></tr>
-      <tr><td>"He doesn't explain capitalism"</td><td class="step">He never tried. His aim is the spirit's religious ancestry.</td></tr>
-      <tr><td>"Calvin never preached work"</td><td class="step">Correct. The source is later Puritans like Baxter, which is why Thomas and Richard differ.</td></tr>
-      <tr><td>"Anxiety is too thin a thread"</td><td class="step">Anxiety is one link. Signs, sanctified work and the style of life matter too.</td></tr>
-    </tbody>
-  </table>
-  <aside class="notes"><p class="t">1:00 (optional)</p><p>Kalberg section V, pp. 50–55. Good to have in your pocket for Q&amp;A even if you skip the slide.</p></aside>
-</section>
-
-<section data-era="steel" data-year="2026" class="disc">
-  <div class="count">Discussion 4 of 4</div>
-  <h2>"The Puritan wanted to work in a calling; we are forced to do so." Is that true of you? And is culture really why Americans work more than Europeans?</h2>
-  <div class="hint-head step">If the room goes quiet</div>
-  <ul>
-    <li class="step">The case against Weber: labor laws, healthcare tied to jobs, wages and vacation policy may explain the hours gap better than religion.</li>
-    <li class="step">Kalberg's case for him: even market behavior that looks purely economic carries a cultural imprint.</li>
-    <li class="step">Casing, or choice?</li>
-  </ul>
-  <aside class="notes"><p class="t">2:00</p><p>End the discussion here and go to the last slide. If people push the institutional explanation, that's the "Weber is an idealist" critique; Weber's reply is that he wanted to add culture to the explanation, not replace everything else with it.</p></aside>
+  <p class="step rule-top">It doesn't matter which. Nothing the Ashworths did could change it, yet four centuries of work grew out of a question nobody could answer. That's Weber's <b>unintended consequences</b>: the Puritans would be horrified by Maya's life.</p>
 </section>
 
 <section data-era="now" data-year="2026">
-  <div class="title-wrap">
-    <h2 style="font-size:96px;max-width:18ch">Ideas make history, but rarely the history their believers wanted.</h2>
-    <p class="lede" style="color:var(--muted)">Thank you. Questions?</p>
+  <h2 style="margin-bottom:22px">Then vs. now</h2>
+  <div class="tn">
+    <div class="flip tcard step"><div class="inner"><div class="side fr"><span class="who">Then, Luther</span><h3>The calling</h3><p>Your job is your identity.</p><span class="tap">Now?</span></div><div class="side bk"><div class="half th"><span class="who">Then, Luther</span><h3>The calling</h3><p>Your job is your identity.</p></div><div class="half nw"><span class="who">Now</span><h3>"So what's your major?"</h3><p>Asked within five minutes.</p></div></div></div></div>
+    <div class="flip tcard step"><div class="inner"><div class="side fr"><span class="who">Then, Ch. 1</span><h3>Upbringing</h3><p>Family steers your path.</p><span class="tap">Now?</span></div><div class="side bk"><div class="half th"><span class="who">Then, Ch. 1</span><h3>Upbringing</h3><p>Family steers your path.</p></div><div class="half nw"><span class="who">Now</span><h3>"What will you do with that?"</h3><p>Parents steering majors.</p></div></div></div></div>
+    <div class="flip tcard step"><div class="inner"><div class="side fr"><span class="who">Then, Baxter</span><h3>Signs of grace</h3><p>Success proves you're good.</p><span class="tap">Now?</span></div><div class="side bk"><div class="half th"><span class="who">Then, Baxter</span><h3>Signs of grace</h3><p>Success proves you're good.</p></div><div class="half nw"><span class="who">Now</span><h3>Hustle culture</h3><p>Grind posts as proof of virtue.</p></div></div></div></div>
+    <div class="flip tcard step"><div class="inner"><div class="side fr"><span class="who">Then, Baxter</span><h3>Wasted time is a sin</h3><p>The deadliest one.</p><span class="tap">Now?</span></div><div class="side bk"><div class="half th"><span class="who">Then, Baxter</span><h3>Wasted time is a sin</h3><p>The deadliest one.</p></div><div class="half nw"><span class="who">Now</span><h3>Lazy Sunday guilt</h3><p>Feeling bad for resting.</p></div></div></div></div>
+    <div class="flip tcard step"><div class="inner"><div class="side fr"><span class="who">Then, Puritans</span><h3>Earn, don't enjoy</h3><p>Save, never splurge.</p><span class="tap">Now?</span></div><div class="side bk"><div class="half th"><span class="who">Then, Puritans</span><h3>Earn, don't enjoy</h3><p>Save, never splurge.</p></div><div class="half nw"><span class="who">Now</span><h3>"Work hard, play hard"</h3><p>Baxter approves half.</p></div></div></div></div>
+    <div class="flip tcard step"><div class="inner"><div class="side fr"><span class="who">Then, Franklin</span><h3>Time is money</h3><p>Never sit idle.</p><span class="tap">Now?</span></div><div class="side bk"><div class="half th"><span class="who">Then, Franklin</span><h3>Time is money</h3><p>Never sit idle.</p></div><div class="half nw"><span class="who">Now</span><h3>2x speed</h3><p>Lectures at double speed.</p></div></div></div></div>
+    <div class="flip tcard step"><div class="inner"><div class="side fr"><span class="who">Then, The default</span><h3>Traditionalism</h3><p>Work enough, then stop.</p><span class="tap">Now?</span></div><div class="side bk"><div class="half th"><span class="who">Then, The default</span><h3>Traditionalism</h3><p>Work enough, then stop.</p></div><div class="half nw"><span class="who">Now</span><h3>Quiet quitting</h3><p>Doing just enough.</p></div></div></div></div>
+    <div class="flip tcard step"><div class="inner"><div class="side fr"><span class="who">Then, Weber</span><h3>Steel-hard casing</h3><p>We must work.</p><span class="tap">Now?</span></div><div class="side bk"><div class="half th"><span class="who">Then, Weber</span><h3>Steel-hard casing</h3><p>We must work.</p></div><div class="half nw"><span class="who">Now</span><h3>Slack on vacation</h3><p>You can't fully log off.</p></div></div></div></div>
   </div>
-  <aside class="notes"><p class="t">0:20</p><p>One-line takeaway: a religious answer to "Am I saved?" helped create a work ethic that outlived the religion and now runs without it.</p></aside>
 </section>
 
-</div><!-- /stage -->
+<section data-era="now" data-year="2026" class="poll" data-poll="guilt" data-pick="a">
+  <div class="asker">Your answer</div>
+  <h2>You spend a whole Sunday doing nothing. Do you feel guilty?</h2>
+  <div class="pollgrid">
+    <div>
+      <div class="prow" data-o="a"><div class="plabel"><span class="lt"><span class="k">A</span>Yes, a little<span class="weber-pick">Weber's pick</span></span><span class="pct">0%</span></div><div class="track"><div class="slab"><div class="fill"></div></div></div><div class="ctl"><button data-d="-1" aria-label="Remove a vote for A">−</button><input type="number" min="0" value="0" aria-label="Votes for A"><button data-d="1" aria-label="Add a vote for A">+</button></div></div>
+      <div class="prow" data-o="b"><div class="plabel"><span class="lt"><span class="k">B</span>No, it was great<span class="weber-pick">Weber's pick</span></span><span class="pct">0%</span></div><div class="track"><div class="slab"><div class="fill"></div></div></div><div class="ctl"><button data-d="-1" aria-label="Remove a vote for B">−</button><input type="number" min="0" value="0" aria-label="Votes for B"><button data-d="1" aria-label="Add a vote for B">+</button></div></div>
+    </div>
+    <div class="gl glpile" aria-hidden="true"></div>
+    <div class="flip wcard" style="height:400px"><div class="inner">
+      <div class="side fr"><svg class="mini-portrait" data-face="baxter" viewBox="0 0 120 140"></svg><p>What does Weber predict?</p><span class="small">Press W to show or hide</span></div>
+      <div class="side bk"><h3>Yes, a little.</h3><p>Baxter called wasted time the deadliest sin. The religion faded, but the guilt stayed.</p></div>
+    </div></div>
+  </div>
+</section>
 
+<section data-era="now" data-year="2026" class="disc">
+  <button class="timer" data-sec="90">1:30</button>
+  <div class="count">Discussion 3 of 4</div>
+  <h2>Which "now" card best supports Weber? Which one could be explained without religion?</h2>
+  <div class="hint-head step">Likely answer</div>
+  <p class="likely step">Best: Lazy Sunday guilt or "what's your major?", habits with no money reason behind them. Weakest: Slack on vacation, which jobs, rent and health insurance explain on their own.</p>
+</section>
+
+<section data-era="steel" data-year="2026" class="poll disc" data-poll="must" data-pick="b">
+  <button class="timer" data-sec="120">2:00</button>
+  <div class="count">Your answer, then Discussion 4 of 4</div>
+  <h2>Be honest: do you work because you want to, or because you must?</h2>
+  <p class="discq step"><b>Discuss:</b> is culture really why Americans work more than Europeans? <span class="likely">Likely answer: partly. Laws, wages and health insurance matter too, and Weber agrees culture is one cause, not the only one.</span></p>
+  <div class="pollgrid">
+    <div>
+      <div class="prow" data-o="a"><div class="plabel"><span class="lt"><span class="k">A</span>Because I want to<span class="weber-pick">Weber's pick</span></span><span class="pct">0%</span></div><div class="track"><div class="slab"><div class="fill"></div></div></div><div class="ctl"><button data-d="-1" aria-label="Remove a vote for A">−</button><input type="number" min="0" value="0" aria-label="Votes for A"><button data-d="1" aria-label="Add a vote for A">+</button></div></div>
+      <div class="prow" data-o="b"><div class="plabel"><span class="lt"><span class="k">B</span>Because I must<span class="weber-pick">Weber's pick</span></span><span class="pct">0%</span></div><div class="track"><div class="slab"><div class="fill"></div></div></div><div class="ctl"><button data-d="-1" aria-label="Remove a vote for B">−</button><input type="number" min="0" value="0" aria-label="Votes for B"><button data-d="1" aria-label="Add a vote for B">+</button></div></div>
+    </div>
+    <div class="gl glpile" aria-hidden="true"></div>
+    <div class="flip wcard" style="height:400px"><div class="inner">
+      <div class="side fr"><svg class="mini-portrait" data-face="weber" viewBox="0 0 120 140"></svg><p>What does Weber predict?</p><span class="small">Press W to show or hide</span></div>
+      <div class="side bk"><h3>Must.</h3><p>The Puritans wanted to work. We have to.</p></div>
+    </div></div>
+  </div>
+</section>
+
+<section data-era="now" data-year="2026" class="disc">
+  <div class="count">Back to our big question</div>
+  <h2>Do we choose how we work, or did we inherit it?</h2>
+  <div class="hint-head step">Weber's answer</div>
+  <p class="likely step">Mostly inherited. The habits came from Puritan religion and were passed down by families and schools. The reason faded, but we kept the habits, and now the system makes us keep them.</p>
+  <p class="step rule-top">That's the casing: something people made, by accident, that now feels like it was always there.</p>
+</section>
+
+<section data-era="candle" data-year="2026" class="disc linkslide">
+  <button class="timer" data-sec="120">2:00</button>
+  <div class="count">Final discussion: linking to last week's group project</div>
+  <blockquote class="lastweek">"Are the rules we live by natural and permanent, or made by people and changeable?"<cite>Our big question from last week's group project on Marx</cite></blockquote>
+  <h3 class="linkq step">Would Weber answer that question the same way Marx did?</h3>
+  <div class="hint-head step">Likely answer</div>
+  <p class="likely step">Both say the rules are made by people. Marx says the ruling class makes them to keep power, and people can change them by acting together. Weber says religious ideas made them, mostly by accident, and once built they harden into a "steel-hard casing" that is very hard to change. So Weber is more pessimistic.</p>
+</section>
+
+<section data-era="candle" data-year="2026">
+  <div class="title">
+    <div><h1 style="font-size:150px">Thank you</h1><p>Questions? Or confessions. Though Calvin would say there's no one to confess to.</p></div>
+    <div class="gl glseal big" data-front="?|Am I saved?" data-back="$|Am I successful?" data-spin="1"><div class="coin spin fallback" aria-hidden="true"><div class="face"><div><b>?</b><small>Am I saved?</small></div></div><div class="face back"><div><b>$</b><small>Am I successful?</small></div></div></div></div>
+  </div>
+</section>
+
+</div>
+
+
+</div>
+
+<div id="tree" hidden>
+  <div class="tt">The Ashworth family</div>
+  <div class="tnode" data-n="0"><svg data-face="thomas" viewBox="0 0 120 140"></svg><div><b>Thomas Ashworth</b><span>1563, wool trader</span></div></div>
+  <div class="tgap">3 generations</div>
+  <div class="tnode" data-n="1"><svg data-face="richard" viewBox="0 0 120 140"></svg><div><b>Richard Ashworth</b><span>1655, cloth merchant</span></div></div>
+  <div class="tgap">3 generations</div>
+  <div class="tnode" data-n="2"><svg data-face="samuel" viewBox="0 0 120 140"></svg><div><b>Samuel Ashworth</b><span>1748, printer</span></div></div>
+  <div class="tgap">9 generations</div>
+  <div class="tnode" data-n="3"><svg data-face="maya" viewBox="0 0 120 140"></svg><div><b>Maya Ashworth</b><span>2026, analyst</span></div></div>
+</div>
 <div id="ledger" hidden>
   <table>
     <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup>
@@ -473,152 +831,517 @@ blockquote cite{display:block;font-style:normal;font-size:22px;color:var(--muted
     <tbody id="ledgerBody"></tbody>
   </table>
 </div>
-
 <div id="yr" aria-hidden="true"><div id="yrNum"></div></div>
-<div id="notes" hidden></div>
 <div id="corner"></div>
+<div id="nav"><button id="navPrev" aria-label="Previous">‹</button><button id="navNext" aria-label="Next">›</button></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function(){
-  const stage = document.getElementById('stage');
-  const ledger = document.getElementById('ledger');
-  const slides = [...stage.querySelectorAll('section')];
-  const notesEl = document.getElementById('notes');
-  const corner = document.getElementById('corner');
-  const yr = document.getElementById('yr'), yrNum = document.getElementById('yrNum');
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let i = 0, short = false, lastYear = null, busy = false;
-
-  // Ledger lives inside the stage so it scales with it
-  stage.appendChild(ledger);
-  const rows = [
-    {who:'Thomas', yr:'1563'}, {who:'Richard', yr:'1655'},
-    {who:'Samuel', yr:'1748'}, {who:'Maya', yr:'2026'}
-  ];
-  function renderLedger(newRow){
-    const b = document.getElementById('ledgerBody');
-    b.innerHTML = rows.map((r,k)=> r.did
-      ? `<tr class="r${k}${k===newRow?' new':''}"><td>${r.who}</td><td>${r.yr}</td><td>${r.did}</td><td>${r.why}</td></tr>`
-      : `<tr class="empty"><td>…</td><td></td><td></td><td></td></tr>`).join('');
+  /* ---------- engraved portraits ---------- */
+  const SK='#E8D2AE', INK='#2A2017';
+  function face(kind){
+    const P={
+      luther:{coat:'#2A2017',hair:'#4A3424',hat:'flat',beard:null,rx:27},
+      calvin:{coat:'#1E1712',hair:'#5A3B22',hat:'skull',beard:'long',rx:22},
+      baxter:{coat:'#1E1712',hair:'#6B4A2C',hat:'skull',beard:null,long:true,bands:true,rx:23},
+      franklin:{coat:'#6B4A2C',hair:'#B9B2A6',bald:true,long:true,glasses:true,cravat:true,rx:25},
+      weber:{coat:'#2B2E33',hair:'#2E241B',beard:'full',tie:true,rx:24},
+      kalberg:{coat:'#4E6272',hair:'#9A9590',glasses:true,sweater:true,rx:24},
+      marx:{coat:'#2B2E33',hair:'#E2DED6',beard:'huge',cloud:true,tie:true,rx:24},
+      sombart:{coat:'#2B2E33',hair:'#3A2C20',beard:'goatee',tie:true,rx:23},
+      thomas:{coat:'#3B2A1C',hair:'#5A3B22',hat:'flat',beard:'full',rx:24},
+      richard:{coat:'#1E1712',hair:'#4A3424',hat:'tall',long:true,bands:true,rx:23},
+      samuel:{coat:'#1F3A5F',hair:'#D8D2C6',long:true,cravat:true,rx:24},
+      maya:{coat:'#4E6272',hair:'#2A1E16',female:true,rx:22}
+    }[kind];
+    let s=`<rect width="120" height="140" fill="none"/>`;
+    if(P.cloud) s+=`<circle cx="60" cy="56" r="40" fill="${P.hair}"/>`;
+    if(P.female) s+=`<path d="M33 52 Q28 104 42 108 L78 108 Q92 104 87 52Z" fill="${P.hair}"/>`;
+    if(P.long) s+=`<path d="M34 46 Q28 80 34 100 L46 98 L44 50Z M86 46 Q92 80 86 100 L74 98 L76 50Z" fill="${P.hair}"/>`;
+    s+=`<path d="M8 140 Q10 100 60 96 Q110 100 112 140Z" fill="${P.coat}"/>`;
+    if(P.sweater) s+=`<path d="M48 98 Q60 112 72 98" fill="none" stroke="#CFC6B6" stroke-width="3"/>`;
+    if(P.tie) s+=`<path d="M50 97 L60 120 L70 97Z" fill="#F1E9DA"/><path d="M58 100 L62 100 L63 120 L60 126 L57 120Z" fill="#7A2C27"/>`;
+    if(P.bands) s+=`<rect x="53" y="96" width="6" height="22" fill="#F1E9DA"/><rect x="61" y="96" width="6" height="22" fill="#F1E9DA"/>`;
+    if(P.cravat) s+=`<path d="M50 96 L60 116 L70 96Z" fill="#F1E9DA"/>`;
+    s+=`<rect x="52" y="80" width="16" height="18" fill="${SK}"/>`;
+    s+=`<ellipse cx="60" cy="58" rx="${P.rx}" ry="29" fill="${SK}"/>`;
+    if(!P.bald && !P.cloud && P.hat!=='skull' && P.hat!=='tall') s+=`<path d="M${60-P.rx} 54 Q${60-P.rx} 26 60 27 Q${60+P.rx} 26 ${60+P.rx} 54 Q${60+P.rx-6} 38 60 38 Q${60-P.rx+6} 38 ${60-P.rx} 54Z" fill="${P.hair}"/>`;
+    if(P.bald) s+=`<path d="M35 52 Q34 70 38 76 L42 60Z M85 52 Q86 70 82 76 L78 60Z" fill="${P.hair}"/>`;
+    if(P.hat==='flat') s+=`<path d="M28 40 Q60 14 92 40 L90 46 Q60 34 30 46Z" fill="#1A120C"/>`;
+    if(P.hat==='tall') s+=`<path d="M26 42 H94 L88 47 H32Z M40 42 L44 6 H76 L80 42Z" fill="#1A120C"/><rect x="42" y="34" width="36" height="5" fill="#5A4A3A"/>`;
+    if(P.hat==='skull') s+=`<path d="M38 42 Q60 20 82 42 Q60 34 38 42Z" fill="#1A120C"/>`;
+    s+=`<circle cx="51" cy="57" r="2.4" fill="${INK}"/><circle cx="69" cy="57" r="2.4" fill="${INK}"/>`;
+    s+=`<path d="M46 50 Q51 47 56 50 M64 50 Q69 47 74 50" stroke="${INK}" stroke-width="1.8" fill="none"/>`;
+    if(P.glasses) s+=`<circle cx="51" cy="57" r="7" fill="none" stroke="${INK}" stroke-width="2"/><circle cx="69" cy="57" r="7" fill="none" stroke="${INK}" stroke-width="2"/><path d="M58 57 H62" stroke="${INK}" stroke-width="2"/>`;
+    if(P.beard==='long') s+=`<path d="M40 64 Q42 112 60 126 Q78 112 80 64 Q72 80 60 80 Q48 80 40 64Z" fill="${P.hair}"/>`;
+    if(P.beard==='full') s+=`<path d="M37 60 Q38 100 60 102 Q82 100 83 60 Q74 78 60 78 Q46 78 37 60Z" fill="${P.hair}"/>`;
+    if(P.beard==='huge') s+=`<path d="M30 58 Q26 112 60 120 Q94 112 90 58 Q76 82 60 82 Q44 82 30 58Z" fill="${P.hair}"/>`;
+    if(P.beard==='goatee') s+=`<path d="M46 71 Q60 64 74 71 Q60 70 46 71Z M55 80 Q60 96 65 80Z" fill="${P.hair}"/>`;
+    if(!P.beard || P.beard==='goatee') s+=`<path d="M53 75 Q60 79 67 75" stroke="${INK}" stroke-width="1.8" fill="none"/>`;
+    return s;
   }
+  document.querySelectorAll('svg[data-face]').forEach(el=>el.innerHTML=face(el.dataset.face));
+
+  /* ================= REAL 3D: three.js layer ================= */
+  function makeGL(){
+    if(!window.THREE) return null;
+    const T=THREE;
+    const canvas=document.createElement('canvas'); canvas.id='gl';
+    let R; try{ R=new T.WebGLRenderer({canvas,alpha:true,antialias:true}); }catch(e){ return null; }
+    document.body.prepend(canvas); document.body.classList.add('gl');
+    R.setPixelRatio(Math.min(devicePixelRatio||1,2)); R.autoClear=false; R.outputEncoding=T.sRGBEncoding;
+    R.toneMapping=T.ACESFilmicToneMapping; R.toneMappingExposure=1.05;
+    R.shadowMap.enabled=true; R.shadowMap.type=T.PCFSoftShadowMap;
+    // a small studio for reflections: warm sky, dark floor, three softboxes
+    const ENV=(()=>{const es=new T.Scene();const c=document.createElement('canvas');c.width=16;c.height=256;const x=c.getContext('2d');const g=x.createLinearGradient(0,0,0,256);g.addColorStop(0,'#FFF4DE');g.addColorStop(.45,'#8A7458');g.addColorStop(1,'#1A140F');x.fillStyle=g;x.fillRect(0,0,16,256);
+      const sky=new T.Mesh(new T.SphereGeometry(50,32,16),new T.MeshBasicMaterial({side:T.BackSide,map:new T.CanvasTexture(c)}));es.add(sky);
+      [[0,30,0,40,40,1.6],[34,8,14,12,26,1.2],[-30,10,-12,10,22,.9]].forEach(([px,py,pz,w,h,b])=>{const m=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshBasicMaterial({color:new T.Color(b,b*.95,b*.85),side:T.DoubleSide}));m.position.set(px,py,pz);m.lookAt(0,0,0);es.add(m);});
+      const pm=new T.PMREMGenerator(R);const t=pm.fromScene(es,.03).texture;pm.dispose();return t;})();
+    const css=n=>getComputedStyle(document.body).getPropertyValue(n).trim()||'#888';
+    const rnd=(a,b)=>a+Math.random()*(b-a);
+    function noiseTex(n,base,spread,scale){const c=document.createElement('canvas');c.width=c.height=n;const x=c.getContext('2d');const im=x.createImageData(n,n);
+      for(let k=0;k<n*n;k++){const v=base+(Math.random()-.5)*spread;im.data[k*4]=im.data[k*4+1]=im.data[k*4+2]=v;im.data[k*4+3]=255;}x.putImageData(im,0,0);
+      if(scale){x.globalAlpha=.5;x.drawImage(c,0,0,n/scale,n/scale,0,0,n,n);}const t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;return t;}
+    // engraved coin face: laurel ring, legend, and a sun, used as a bump map
+    const coinFace=(()=>{const c=document.createElement('canvas');c.width=c.height=512;const x=c.getContext('2d');x.fillStyle='#777';x.fillRect(0,0,512,512);
+      x.strokeStyle='#ddd';x.lineWidth=10;x.beginPath();x.arc(256,256,236,0,7);x.stroke();
+      x.fillStyle='#ddd';for(let k=0;k<72;k++){const a=k/72*Math.PI*2;x.beginPath();x.arc(256+Math.cos(a)*214,256+Math.sin(a)*214,5,0,7);x.fill();}
+      x.font='700 34px Georgia, serif';x.textAlign='center';x.textBaseline='middle';const L='IN LABORE FIDES \u2022 MDCLV \u2022 ';
+      for(let k=0;k<L.length;k++){const a=-Math.PI/2+k/L.length*Math.PI*2;x.save();x.translate(256+Math.cos(a)*178,256+Math.sin(a)*178);x.rotate(a+Math.PI/2);x.fillText(L[k],0,0);x.restore();}
+      x.lineWidth=6;x.beginPath();x.arc(256,256,140,0,7);x.stroke();
+      for(let k=0;k<16;k++){const a=k/16*Math.PI*2;x.beginPath();x.moveTo(256+Math.cos(a)*40,256+Math.sin(a)*40);x.lineTo(256+Math.cos(a)*(k%2?96:120),256+Math.sin(a)*(k%2?96:120));x.stroke();}
+      x.beginPath();x.arc(256,256,34,0,7);x.fill();return new T.CanvasTexture(c);})();
+    const coinRimGeo=new T.LatheGeometry([[0.6,-.05],[.66,-.052],[.7,-.03],[.7,.03],[.66,.052],[.6,.05],[.58,.04]].map(([a,b])=>new T.Vector2(a,b)),64);
+    const coinFaceGeo=new T.CircleGeometry(.6,64);
+    function coinMats(col){return {rim:new T.MeshStandardMaterial({color:col,metalness:1,roughness:.28,envMap:ENV}),face:new T.MeshStandardMaterial({color:col,metalness:1,roughness:.34,bumpMap:coinFace,bumpScale:.018,envMap:ENV})};}
+    function makeCoin(M){const g=new T.Group();const r=new T.Mesh(coinRimGeo,M.rim);g.add(r);
+      const a=new T.Mesh(coinFaceGeo,M.face);a.rotation.x=-Math.PI/2;a.position.y=.04;g.add(a);
+      const b=new T.Mesh(coinFaceGeo,M.face);b.rotation.x=Math.PI/2;b.position.y=-.04;g.add(b);
+      g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});return g;}
+    const GOLD=new T.Color('#C9A44C'), STEEL=new T.Color('#8A9299');
+
+    /* ---------- background world: drifting dust, tumbling coins, the iron cage ---------- */
+    const bg=new T.Scene(), cam=new T.PerspectiveCamera(60,1,.1,200);
+    bg.environment=ENV; bg.fog=new T.Fog(new T.Color(css('--bg')),20,72); bg.add(new T.AmbientLight(0xffffff,.35));
+    const key=new T.DirectionalLight(0xffffff,.9); key.position.set(4,6,8); bg.add(key);
+    const candle=new T.PointLight(0xffb060,1.2,60); candle.position.set(-6,3,4); bg.add(candle);
+    function dot(){const c=document.createElement('canvas');c.width=c.height=64;const x=c.getContext('2d');const g=x.createRadialGradient(32,32,0,32,32,32);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,64,64);return new T.CanvasTexture(c);}
+    const N=900, pos=new Float32Array(N*3);
+    for(let k=0;k<N;k++){pos[k*3]=rnd(-34,34);pos[k*3+1]=rnd(-20,20);pos[k*3+2]=rnd(-70,0);}
+    const dg=new T.BufferGeometry(); dg.setAttribute('position',new T.BufferAttribute(pos,3));
+    const dm=new T.PointsMaterial({size:.22,map:dot(),transparent:true,opacity:.6,depthWrite:false,color:GOLD});
+    bg.add(new T.Points(dg,dm));
+    const bgCoin=coinMats(GOLD.clone()); const coinMat=bgCoin.rim;
+    const coins=[];
+    for(let k=0;k<14;k++){const m=makeCoin(bgCoin);m.scale.setScalar(1.15);m.position.set(rnd(-30,30),rnd(-16,16),rnd(-70,-26));m.rotation.set(rnd(0,6),rnd(0,6),0);m.userData.s=new T.Vector3(rnd(-.8,.8),rnd(-.8,.8),rnd(-.4,.4));bg.add(m);coins.push(m);}
+    const cage=new T.Group(); bg.add(cage);
+    const barMat=new T.MeshStandardMaterial({color:'#9AA3AB',metalness:1,roughness:.3,envMap:ENV,transparent:true,opacity:0});
+    const edge=[];[-1,1].forEach(sd=>{for(let k=0;k<5;k++){const z=-(9+k*3.2);const u=.99-k*.014;const b=new T.Mesh(new T.CylinderGeometry(.11,.11,60,14),barMat);b.userData={sd,u,z};b.position.z=z;cage.add(b);edge.push(b);}});
+    
+    let warp=0, cageOn=0, cageY=60, eraCol=GOLD.clone(), darkBg=true;
+
+    /* ---------- helpers ---------- */
+    function sealTex(txt,flip,bump){
+      const [big,sub]=(txt||'').split('|');
+      const c=document.createElement('canvas');c.width=c.height=1024;const x=c.getContext('2d');
+      if(flip){}
+      if(bump){x.fillStyle='#606060';x.fillRect(0,0,1024,1024);x.fillStyle='#202020';x.beginPath();x.arc(512,512,455,0,7);x.fill();x.fillStyle='#808080';x.beginPath();x.arc(512,512,420,0,7);x.fill();}
+      else{const g=x.createRadialGradient(400,360,40,512,512,520);g.addColorStop(0,'#C24A40');g.addColorStop(.55,'#86221C');g.addColorStop(1,'#561310');
+      x.fillStyle=g;x.fillRect(0,0,1024,1024);}
+      x.strokeStyle='rgba(241,217,198,.5)';x.lineWidth=8;x.setLineDash([4,22]);x.beginPath();x.arc(512,512,400,0,7);x.stroke();
+      x.setLineDash([]);x.strokeStyle='rgba(0,0,0,.25)';x.lineWidth=18;x.beginPath();x.arc(512,512,440,0,7);x.stroke();
+      x.fillStyle=bump?'#F0F0F0':'#EBC9B4';x.textAlign='center';x.textBaseline='middle';
+      if(!bump){x.shadowColor='rgba(0,0,0,.45)';x.shadowOffsetX=6;x.shadowOffsetY=8;}
+      x.font='400 380px "IM Fell English", Georgia, serif';x.fillText(big||'',512,sub?470:530);
+      if(sub){if(!bump){x.shadowOffsetX=3;x.shadowOffsetY=4;}x.font='400 76px "IM Fell English", Georgia, serif';x.fillText(sub,512,760);}
+      const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.anisotropy=8;t.center.set(.5,.5);t.rotation=Math.PI/2;return t;
+    }
+    function cardTex(title,body,w,h){
+      const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+      x.fillStyle='#EADFC8';x.beginPath();x.roundRect?x.roundRect(0,0,w,h,28):x.rect(0,0,w,h);x.fill();
+      x.strokeStyle='#B8A27C';x.lineWidth=6;x.stroke();
+      x.fillStyle='#87231E';x.font='400 100px "IM Fell English", Georgia, serif';x.textBaseline='top';x.fillText(title,40,30);
+      x.fillStyle='#2A2017';x.font='400 60px "Libre Caslon Text", Georgia, serif';
+      const words=body.split(' ');let line='',y=150;
+      for(const wd of words){const t=line?line+' '+wd:wd;if(x.measureText(t).width>w-80){x.fillText(line,40,y);y+=72;line=wd;}else line=t;}
+      x.fillText(line,40,y);
+      const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.anisotropy=8;return t;
+    }
+    function letterTex(L){const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');x.fillStyle='#3A2C20';x.beginPath();x.arc(128,128,120,0,7);x.fill();x.fillStyle='#EADFC8';x.font='700 200px Archivo, Arial, sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(L,128,140);const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;return t;}
+    function ground(sc,y,size){const g=new T.Mesh(new T.PlaneGeometry(size,size),new T.ShadowMaterial({opacity:.28}));g.rotation.x=-Math.PI/2;g.position.y=y;g.receiveShadow=true;sc.add(g);}
+    function lights(sc){sc.environment=ENV;sc.add(new T.AmbientLight(0xffffff,.25));const d=new T.DirectionalLight(0xfff1dc,1.6);d.position.set(4,8,6);d.castShadow=true;d.shadow.mapSize.set(1024,1024);Object.assign(d.shadow.camera,{left:-10,right:10,top:10,bottom:-10,near:.5,far:40});d.shadow.bias=-.0005;d.shadow.radius=4;sc.add(d);const p=new T.PointLight(0xffb060,1.6,30);p.position.set(-3,2,4);sc.add(p);return p;}
+
+    /* ---------- the wax seal ---------- */
+    function Seal(el){
+      const sc=new T.Scene(), cm=new T.PerspectiveCamera(30,1,.1,50); cm.position.set(0,0,5.4);
+      const flick=lights(sc);
+      const grain=noiseTex(256,128,90,4); grain.repeat.set(3,3);
+      const wax=new T.MeshPhysicalMaterial({color:'#6E1813',envMapIntensity:.5,roughness:.45,clearcoat:.35,clearcoatRoughness:.35,bumpMap:grain,bumpScale:.012,side:T.DoubleSide,envMap:ENV});
+      const fT=sealTex(el.dataset.front,false), bT=sealTex(el.dataset.back||el.dataset.front,true);
+      const front=new T.MeshPhysicalMaterial({map:fT,bumpMap:sealTex(el.dataset.front,false,true),bumpScale:.03,roughness:.45,clearcoat:.35,clearcoatRoughness:.4,envMap:ENV,envMapIntensity:.45});
+      const back=new T.MeshPhysicalMaterial({map:bT,bumpMap:sealTex(el.dataset.back||el.dataset.front,true,true),bumpScale:.03,roughness:.45,clearcoat:.35,clearcoatRoughness:.4,envMap:ENV,envMapIntensity:.45});
+      const spin=new T.Group(); sc.add(spin);
+      const halves=[];
+      for(let h=0;h<2;h++){
+        const g=new T.Group();
+        const cyl=new T.Mesh(new T.CylinderGeometry(1,1,.24,72,1,false,h*Math.PI,Math.PI),[wax,front,back]);
+        cyl.rotation.x=Math.PI/2; g.add(cyl);
+        const rimGeo=new T.TorusGeometry(1,.09,14,60,Math.PI); const p=rimGeo.attributes.position;
+        for(let v=0;v<p.count;v++){const s=1+Math.sin(v*1.7)*.12+Math.cos(v*.53)*.1;p.setXYZ(v,p.getX(v),p.getY(v),p.getZ(v)*s);}
+        const rim=new T.Mesh(rimGeo,wax); rim.rotation.z=h?Math.PI/2:-Math.PI/2; g.add(rim);
+        // cut face so a broken half looks solid
+        const cut=new T.Mesh(new T.PlaneGeometry(.24,2),wax); cut.rotation.y=Math.PI/2; cut.position.x=h?-0.001:0.001; g.add(cut);
+        g.userData={v:new T.Vector3(),w:new T.Vector3()}; spin.add(g); halves.push(g);
+      }
+      const shards=[], shardMat=wax;
+      let broken=false, bt=0;
+      return {
+        el,
+        update(t,dt){
+          flick.intensity=1.3+Math.sin(t*9)*.12+Math.sin(t*23)*.08;
+          if(!broken){
+            if(this.freeze){} else if(el.dataset.spin) spin.rotation.y+=dt*.75; else {spin.rotation.y=Math.sin(t*.9)*.45; spin.rotation.x=Math.sin(t*.6)*.15;}
+            spin.position.y=Math.sin(t*1.3)*.06;
+          } else {
+            bt+=dt;
+            halves.forEach(g=>{g.position.addScaledVector(g.userData.v,dt);g.userData.v.y-=3.2*dt;g.rotation.x+=g.userData.w.x*dt;g.rotation.y+=g.userData.w.y*dt;g.rotation.z+=g.userData.w.z*dt;});
+            shards.forEach(m=>{m.position.addScaledVector(m.userData.v,dt);m.userData.v.y-=4*dt;m.rotation.x+=dt*5;m.rotation.y+=dt*4;});
+            flick.intensity=1.3+Math.max(0,4-bt*5);
+          }
+        },
+        break(){
+          if(broken) return; broken=true; spin.rotation.set(0,0,0);
+          halves[0].userData.v.set(1.6,1.2,.6); halves[0].userData.w.set(.6,1.2,-1.8);
+          halves[1].userData.v.set(-1.6,1.4,.6); halves[1].userData.w.set(.6,-1.2,1.8);
+          for(let k=0;k<46;k++){const m=new T.Mesh(new T.TetrahedronGeometry(rnd(.03,.09)),shardMat);m.userData.v=new T.Vector3(rnd(-3,3),rnd(-1,4),rnd(-1,3));sc.add(m);shards.push(m);}
+        },
+        sc,cm
+      };
+    }
+
+    /* ---------- the 3D staircase ---------- */
+    function Stairs(el){
+      const sc=new T.Scene(), cm=new T.PerspectiveCamera(40,1,.1,100);
+      lights(sc);
+      const data=[...el.querySelectorAll('.stair')].map(s=>[s.querySelector('h3').textContent,s.querySelector('p').textContent]);
+      const blocks=[], signs=[], n=data.length, gap=2.95;
+      const st=noiseTex(256,150,70,8); const stoneMat=new T.MeshStandardMaterial({color:'#A8977A',map:st,bumpMap:st,bumpScale:.05,roughness:.85,envMap:ENV});
+      const giltMat=new T.MeshStandardMaterial({color:'#C9A44C',metalness:1,roughness:.3,envMap:ENV});
+      ground(sc,0,60);
+      data.forEach(([t,b],k)=>{
+        const h=.35+k*.6, geo=new T.BoxGeometry(2.5,h,2.2); geo.translate(0,h/2,0);
+        const side=stoneMat;
+        const top=giltMat;
+        const m=new T.Mesh(geo,[side,side,top,side,side,side]); m.position.set((k-(n-1)/2)*gap,0,-k*.25); m.scale.y=.001; m.castShadow=true; m.receiveShadow=true; sc.add(m); blocks.push(m);
+        const sg=new T.Mesh(new T.PlaneGeometry(2.85,2.0),new T.MeshBasicMaterial({map:cardTex(t,b,690,480),transparent:true,opacity:0,toneMapped:false}));
+        sg.position.set(m.position.x,h+1.15,m.position.z); sc.add(sg); signs.push(sg);
+      });
+            let count=0;
+      return {el,sc,cm,
+        set(c){count=c;},
+        update(t,dt){
+          cm.position.set(Math.sin(t*.22)*1.2,4.3+Math.sin(t*.3)*.25,11.8); cm.lookAt(0,2.6,0);
+          blocks.forEach((m,k)=>{const tg=k<count?1:.001; m.scale.y+=(tg-m.scale.y)*Math.min(1,dt*5);});
+          signs.forEach((s,k)=>{const tg=k<count?1:0; s.material.opacity+=(tg-s.material.opacity)*Math.min(1,dt*5); s.position.y=blocks[k].geometry.parameters.height*blocks[k].scale.y+1.4+Math.sin(t*1.4+k)*.06; s.quaternion.copy(cm.quaternion);});
+        }};
+    }
+
+    /* ---------- the poll: every vote is a coin dropped on a pile ---------- */
+    function Pile(el){
+      const sc=new T.Scene(), cm=new T.PerspectiveCamera(34,1,.1,100);
+      lights(sc);
+      const cmat=coinMats(GOLD.clone()); const pmat=coinMats(new T.Color('#F2CF6A')); pmat.rim.emissive=pmat.face.emissive=new T.Color('#5a4310'); pmat.rim.emissiveIntensity=pmat.face.emissiveIntensity=.5;
+      ground(sc,-.22,30);
+      const X={a:-1.45,b:1.45}, piles={a:[],b:[]}, ring={};
+      for(const o of ['a','b']){
+        const wood=noiseTex(128,110,60,2); const base=new T.Mesh(new T.CylinderGeometry(.95,1.05,.22,48),new T.MeshStandardMaterial({color:'#4A3423',map:wood,roughness:.55,envMap:ENV})); base.castShadow=base.receiveShadow=true;
+        base.position.set(X[o],-.11,0); sc.add(base);
+        const lab=new T.Mesh(new T.PlaneGeometry(.8,.8),new T.MeshBasicMaterial({map:letterTex(o.toUpperCase()),transparent:true}));
+        lab.position.set(X[o],-.65,1.05); sc.add(lab);
+        const r=new T.Mesh(new T.TorusGeometry(1.15,.05,10,64),new T.MeshBasicMaterial({color:'#FFD36A',transparent:true,opacity:0}));
+        r.rotation.x=Math.PI/2; r.position.set(X[o],.02,0); sc.add(r); ring[o]=r;
+      }
+      let pick=null, want={a:0,b:0};
+      function hc(){const m=Math.max(want.a,want.b);return m>26?3.1/m:.12;}
+      return {el,sc,cm,
+        votes(a,b){want={a,b};},
+        pick(p){pick=p;},
+        update(t,dt){
+          cm.position.set(Math.sin(t*.35)*1.2,3.2,9.4); cm.lookAt(0,.9,0);
+          const h=hc();
+          for(const o of ['a','b']){
+            const P=piles[o];
+            while(P.length<want[o]){const m=makeCoin(cmat);m.position.set(X[o]+rnd(-.05,.05),7+P.length*.05,rnd(-.05,.05));m.rotation.y=rnd(0,6);m.userData={vy:0,i:P.length};sc.add(m);P.push(m);}
+            while(P.length>want[o]){const m=P.pop();sc.remove(m);}
+            P.forEach((m,k)=>{
+              m.scale.y=h/.105; const rest=h/2+k*h;
+              if(m.position.y>rest+.001||m.userData.vy>0){m.userData.vy-=22*dt;m.position.y+=m.userData.vy*dt;if(m.position.y<rest){m.position.y=rest;m.userData.vy=Math.abs(m.userData.vy)>2?-m.userData.vy*.28:0;}}
+              else m.position.y=rest;
+              const M=(pick===o)?pmat:cmat; if(m.userData.M!==M){m.userData.M=M; m.children[0].material=M.rim; m.children[1].material=m.children[2].material=M.face;}
+            });
+            const r=ring[o]; const tg=pick===o?.9:0; r.material.opacity+=(tg-r.material.opacity)*Math.min(1,dt*6);
+            r.position.y=.02+((t*.8)%1)*(P.length*h+.3); r.scale.setScalar(1+Math.sin(t*4)*.04);
+          }
+        }};
+    }
+
+    const views=new Map();
+    document.querySelectorAll('.gl').forEach(el=>{
+      let v=null;
+      if(el.classList.contains('glseal')) v=Seal(el);
+      else if(el.classList.contains('glstairs')) v=Stairs(el);
+      else if(el.classList.contains('glpile')) v=Pile(el);
+      if(v) views.set(el,v);
+    });
+    let active=[];
+
+    let fogTarget=new T.Color(css('--bg'));
+    function setEra(era){ setTimeout(()=>{fogTarget=new T.Color(css('--bg'));},30);
+      eraCol=new T.Color(era==='steel'?'#8A9299':era==='ledger'?'#A8423B':era==='broadside'?'#3A5A86':era==='now'?css('--accent'):'#C9A44C');
+      cageOn=era==='steel'?1:0;
+      darkBg=['candle','steel'].includes(era)||matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    let last=performance.now();
+    function frame(now){
+      const dt=Math.min(.05,(now-last)/1000); last=now; const t=now/1000;
+      const W=innerWidth,H=innerHeight;
+      if(canvas.width!==Math.floor(W*R.getPixelRatio())) R.setSize(W,H,false);
+      canvas.style.width=W+'px'; canvas.style.height=H+'px';
+      // world
+      warp*=Math.pow(.25,dt);
+      const sp=1.2+warp*70;
+      for(let k=0;k<N;k++){let z=pos[k*3+2]+sp*dt;if(z>2){z-=72;pos[k*3]=rnd(-34,34);pos[k*3+1]=rnd(-20,20);}pos[k*3+2]=z;}
+      dg.attributes.position.needsUpdate=true;
+      dm.color.lerp(eraCol,dt*2); dm.opacity=(darkBg?.38:.22)+warp*.5; bg.fog.color.lerp(fogTarget,dt*3); dm.size=.22+warp*.5;
+      coinMat.color.lerp(cageOn?STEEL:GOLD,dt*1.5); bgCoin.face.color.copy(coinMat.color);
+      coins.forEach(m=>{m.rotation.x+=m.userData.s.x*dt;m.rotation.y+=m.userData.s.y*dt;m.position.z+=(.6+warp*60)*dt;if(m.position.z>-24){m.position.z=-70;m.position.x=rnd(-22,22);m.position.y=rnd(-12,12);}});
+      cageY+=((cageOn?0:60)-cageY)*Math.min(1,dt*1.6); cage.position.y=cageY;
+      const hw=Math.tan(cam.fov*Math.PI/360)*(W/H); edge.forEach(b=>{b.position.x=b.userData.sd*b.userData.u*(-b.userData.z)*hw;});
+      barMat.opacity+=((cageOn?.9:0)-barMat.opacity)*Math.min(1,dt*2);
+      candle.intensity=1.1+Math.sin(t*8)*.1;
+      cam.fov=60+warp*25; cam.aspect=W/H; cam.updateProjectionMatrix();
+      R.setScissorTest(false); R.setViewport(0,0,W,H); R.clear();
+      R.render(bg,cam);
+      // embedded views on the current slide
+      R.setScissorTest(true);
+      for(const v of active){
+        const r=v.el.getBoundingClientRect(); if(r.width<2||r.bottom<0||r.top>H) continue;
+        v.update(t,dt);
+        v.cm.aspect=r.width/r.height; v.cm.updateProjectionMatrix();
+        const y=H-r.bottom; R.setViewport(r.left,y,r.width,r.height); R.setScissor(r.left,y,r.width,r.height);
+        R.clearDepth(); R.render(v.sc,v.cm);
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    return {
+      slide(sec){active=[...sec.querySelectorAll('.gl')].map(e=>views.get(e)).filter(Boolean);setEra(sec.dataset.era||'now');},
+      era:setEra,
+      warp(){warp=1;},
+      view:el=>views.get(el),
+      _seal:(el,a)=>{const v=views.get(el); v.sc.children.find(c=>c.isGroup).rotation.y=a; v.freeze=true;}
+    };
+  }
+
+  let GL=null;
+  /* ---------- deck ---------- */
+  const stage=document.getElementById('stage'), ledger=document.getElementById('ledger');
+  const slides=[...stage.querySelectorAll('section')];
+  const corner=document.getElementById('corner');
+  const yr=document.getElementById('yr'), yrNum=document.getElementById('yrNum');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i=0, lastYear=null, busy=false, maxGen=-1;
+  stage.appendChild(ledger); const tree=document.getElementById('tree'); stage.appendChild(tree);
+
+  const rows=[{who:'Thomas Ashworth',yr:'1563',auto:['Holds on to faith and prays',"Calvin's advice: believe you're chosen"]},{who:'Richard Ashworth',yr:'1655',auto:['Hires Puritan weavers from his church','Raises failed; they see work as a calling']},{who:'Samuel Ashworth',yr:'1748',auto:['Keeps working and expanding the shop','Duty, honesty, "time is money"']},{who:'Maya Ashworth',yr:'2026',auto:['Takes the promotion','Because she has to']}];
+  function renderLedger(n){
+    document.getElementById('ledgerBody').innerHTML=rows.map((r,k)=>r.did
+      ?`<tr class="r${k}${k===n?' new':''}"><td>${r.who}</td><td>${r.yr}</td><td>${r.did}</td><td>${r.why}</td></tr>`
+      :`<tr class="empty"><td>…</td><td></td><td></td><td></td></tr>`).join('');
+  }
+  function writeRow(r,did,why){ if(r>=0&&!rows[r].did){rows[r].did=did;rows[r].why=why;renderLedger(r);} }
   renderLedger(-1);
 
-  // Calvin: only a few are saved
-  const decree = Math.random() < 0.25 ? 'Elect' : 'Damned';
+  const decree=Math.random()<0.25?'Elect':'Damned';
 
-  function fit(){
-    const s = Math.min(innerWidth/1600, innerHeight/900);
-    stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+  function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform=`translate(-50%,-50%) scale(${s})`;}
+  addEventListener('resize',fit);fit();
+  const visible=k=>true;
+
+  function onArrive(s){
+    if('gen' in s.dataset){const g=+s.dataset.gen, upto='fillall' in s.dataset?4:g; for(let r=0;r<upto;r++) if(!rows[r].did) writeRow(r,rows[r].auto[0],rows[r].auto[1]);}
+    if(s.querySelector('#laneT')) setTimeout(()=>{},0);
+    const web=s.querySelector('.web'); if(web) setTimeout(()=>web.classList.add('lit'),300);
   }
-  addEventListener('resize', fit); fit();
-
-  const visible = k => !(short && 'optional' in slides[k].dataset);
-
-  function show(k, forward){
-    slides[i].classList.remove('active');
-    i = k;
-    const s = slides[i];
-    const era = s.dataset.era || 'now';
-    const year = s.dataset.year;
-    const swap = () => {
-      document.body.dataset.era = era;
-      s.classList.add('active');
-      ledger.hidden = !('ledger' in s.dataset);
-      const n = s.querySelector('.notes');
-      notesEl.innerHTML = n ? n.innerHTML : '';
-      const shown = slides.filter((_,x)=>visible(x));
-      corner.textContent = `${shown.indexOf(s)+1} / ${shown.length}${short?'  ·  short version':''}`;
-      history.replaceState(null,'','#'+(i+1));
+  function show(k,dir){
+    const prevS=slides[i];
+    prevS.classList.remove('active','enter','enterBack');
+    i=k; const s=slides[i], era=s.dataset.era||'now', year=s.dataset.year;
+    const swap=()=>{
+      document.body.dataset.era=era;
+      s.classList.add('active'); if(dir&&!reduce){void s.offsetWidth; s.classList.add(dir>0?'enter':'enterBack');}
+      ledger.hidden=!('ledger' in s.dataset);
+      slides.forEach(x=>x.querySelectorAll('.explain.open').forEach(e=>e.classList.remove('open'))); document.body.classList.remove('explaining');
+      if('gen' in s.dataset){
+        const g=+s.dataset.gen, before=maxGen; maxGen=Math.max(maxGen,g);
+        tree.hidden=false; tree.classList.toggle('full',!('ledger' in s.dataset));
+        tree.querySelectorAll('.tnode').forEach(n=>{const k=+n.dataset.n;
+          n.classList.toggle('unknown',k>maxGen); n.classList.toggle('current',k===g);
+          if(k>before&&k<=maxGen&&!reduce){n.classList.remove('pop');void n.offsetWidth;n.classList.add('pop');}});
+      } else tree.hidden=true;
+      const shown=slides.filter((_,x)=>visible(x));
+      const dv=slides.filter(x=>x.classList.contains('divider')); const part=dv.filter(d=>slides.indexOf(d)<=i).length;
+      corner.textContent=`${part?('Part '+part+'   '):''}${shown.indexOf(s)+1} / ${shown.length}`;
+      try{history.replaceState(null,'','#'+(i+1));}catch(_){}
+      if(GL) GL.slide(s);
+      syncSteps(); onArrive(s);
     };
-    if (forward && year && lastYear && year !== lastYear && !reduce){
-      yearRoll(+lastYear, +year, era, swap);
-    } else swap();
-    if (year) lastYear = year;
+    if(dir>0&&year&&lastYear&&year!==lastYear&&!reduce) yearRoll(+lastYear,+year,era,swap); else swap();
+    if(year) lastYear=year;
   }
-
-  function yearRoll(from, to, era, done){
-    busy = true;
-    document.body.dataset.era = era;
-    yr.classList.remove('fade'); yr.classList.add('show');
-    const t0 = performance.now(), dur = 1100;
-    (function tick(t){
-      const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
-      yrNum.textContent = Math.round(from + (to-from)*e);
-      if (p < 1) requestAnimationFrame(tick);
-      else {
-        done();
-        setTimeout(()=>{ yr.classList.add('fade'); yr.classList.remove('show'); busy=false; }, 280);
+  function yearRoll(from,to,era,done){
+    busy=true; document.body.dataset.era=era; document.body.classList.add('rolling');
+    if(GL){GL.era(era);GL.warp();}
+    let finished=false;
+    const finish=()=>{
+      if(finished) return; finished=true;
+      try{done();}finally{
+        yrNum.textContent=to; document.body.classList.remove('rolling');
+        setTimeout(()=>{yr.classList.add('fade');yr.classList.remove('show');busy=false;},280);
       }
+    };
+    const safety=setTimeout(finish,1900);
+    yr.classList.remove('fade'); void yr.offsetWidth; yr.classList.add('show');
+    const t0=performance.now(), dur=1300;
+    (function tick(t){
+      if(finished) return;
+      const p=Math.min(1,Math.max(0,(t-t0)/dur)), e=1-Math.pow(1-p,3);
+      yrNum.textContent=Math.round(from+(to-from)*e);
+      if(p<1) requestAnimationFrame(tick); else {clearTimeout(safety);finish();}
     })(t0);
   }
 
+  function syncSteps(){
+    const s=slides[i], el=s.querySelector('.glstairs');
+    if(GL&&el){const v=GL.view(el); if(v) v.set(s.querySelectorAll('.stair.on').length);}
+  }
+  // piece-rate animation hooks into step reveals
+  function stepHook(el){
+    if(el.id==='laneT') el.querySelectorAll('i').forEach((b,j)=>setTimeout(()=>{ if(j>=5){b.style.height='6px';b.style.opacity='.25';} },300+j*80));
+    if(el.id==='laneM') el.querySelectorAll('i').forEach((b,j)=>setTimeout(()=>{ b.style.height=(84+j*6)+'px'; },300+j*80));
+  }
   function next(){
-    if (busy) return;
-    const hidden = slides[i].querySelector('.step:not(.on)');
-    if (hidden){ hidden.classList.add('on'); return; }
+    if(busy) return;
+    const h=slides[i].querySelector('.step:not(.on)');
+    if(h){h.classList.add('on');stepHook(h);syncSteps();return;}
     move(1);
   }
   function prev(){
-    if (busy) return;
-    const on = [...slides[i].querySelectorAll('.step.on')];
-    if (on.length){ on[on.length-1].classList.remove('on'); return; }
+    if(busy) return;
+    const on=[...slides[i].querySelectorAll('.step.on')];
+    if(on.length){on[on.length-1].classList.remove('on');syncSteps();return;}
     move(-1);
   }
   function move(d){
-    let j = i + d;
-    while (j >= 0 && j < slides.length && !visible(j)) j += d;
-    if (j < 0 || j >= slides.length) return;
-    show(j, d > 0);
+    let j=i+d; while(j>=0&&j<slides.length&&!visible(j)) j+=d;
+    if(j<0||j>=slides.length) return; show(j,d);
   }
 
-  // Choices
-  stage.addEventListener('click', e => {
-    const opt = e.target.closest('.opt');
-    if (!opt) return;
-    const sec = opt.closest('section');
-    const fb = sec.querySelector('.fb');
-    fb.innerHTML = opt.querySelector('.why').innerHTML;
-    if (opt.classList.contains('locked')){
-      opt.classList.remove('shake'); void opt.offsetWidth; opt.classList.add('shake');
-      return;
-    }
-    sec.querySelectorAll('.opt').forEach(o=>o.classList.remove('picked'));
-    opt.classList.add('picked');
-    if (opt.classList.contains('hist')){
-      const r = +opt.dataset.row;
-      if (r >= 0 && !rows[r].did){
-        rows[r].did = opt.dataset.did; rows[r].why = opt.dataset.whyl;
-        renderLedger(r);
-      }
-    }
+  /* ---------- polls ---------- */
+  const polls={};
+  function renderPoll(sec){
+    const st=polls[sec.dataset.poll], tot=st.a+st.b;
+    sec.querySelectorAll('.prow').forEach(r=>{
+      const o=r.dataset.o, v=st[o], pct=tot?Math.round(v/tot*100):0;
+      r.querySelector('.fill').style.width=pct+'%';
+      r.querySelector('.pct').textContent=pct+'%'+(tot?`  (${v})`:'');
+      const inp=r.querySelector('input'); if(document.activeElement!==inp) inp.value=v;
+    });
+    const pe=sec.querySelector('.glpile'); if(GL&&pe){const v=GL.view(pe); if(v) v.votes(st.a,st.b);}
+  }
+  slides.filter(s=>s.dataset.poll).forEach(sec=>{
+    polls[sec.dataset.poll]={a:0,b:0};
+    sec.querySelectorAll('.prow').forEach(r=>{
+      const o=r.dataset.o;
+      r.querySelectorAll('button[data-d]').forEach(b=>b.addEventListener('click',()=>{const st=polls[sec.dataset.poll];st[o]=Math.max(0,st[o]+ +b.dataset.d);renderPoll(sec);}));
+      r.querySelector('input').addEventListener('input',e=>{polls[sec.dataset.poll][o]=Math.max(0,parseInt(e.target.value)||0);renderPoll(sec);});
+    });
+    sec.querySelector('.wcard').addEventListener('click',()=>reveal(sec));
+    renderPoll(sec);
+  });
+  function reveal(sec){
+    const card=sec.querySelector('.wcard'), row=sec.querySelector(`.prow[data-o="${sec.dataset.pick}"]`);
+    const on=!card.classList.contains('turned');
+    card.classList.toggle('turned',on); row.classList.toggle('revealed',on);
+    if(on&&sec.dataset.row) writeRow(+sec.dataset.row,sec.dataset.did,sec.dataset.whyl);
+    const pe=sec.querySelector('.glpile'); if(GL&&pe){const v=GL.view(pe); if(v) v.pick(on?sec.dataset.pick:null);}
+  }
+
+  /* ---------- choices ---------- */
+  stage.addEventListener('click',e=>{
+    const opt=e.target.closest('.opt'); if(!opt) return;
+    const sec=opt.closest('section'), fb=sec.querySelector('.fb');
+    fb.innerHTML=opt.querySelector('.why').innerHTML;
+    if(opt.classList.contains('locked')){opt.classList.remove('shake');void opt.offsetWidth;opt.classList.add('shake');return;}
+    sec.querySelectorAll('.opt').forEach(o=>o.classList.remove('picked')); opt.classList.add('picked');
+    if(opt.classList.contains('hist')) writeRow(+opt.dataset.row,opt.dataset.did,opt.dataset.whyl);
+  });
+  // tap a flip card to flip it too
+  stage.addEventListener('click',e=>{
+    const c=e.target.closest('.ccard,.tcard'); if(!c) return;
+    c.classList.toggle('on');
   });
 
-  document.getElementById('breakSeal').addEventListener('click', ()=>{
-    document.getElementById('seal').classList.add('broken');
-    document.getElementById('decreeOut').textContent = decree;
-    document.getElementById('decreeWrap').hidden = false;
-    document.getElementById('breakSeal').hidden = true;
+  /* ---------- timers ---------- */
+  document.querySelectorAll('.timer').forEach(t=>{
+    let id=null, left=+t.dataset.sec;
+    const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+    t.addEventListener('click',()=>{
+      if(id){clearInterval(id);id=null;return;}
+      if(left<=0){left=+t.dataset.sec;t.classList.remove('done');}
+      id=setInterval(()=>{left--;t.textContent=fmt(Math.max(0,left));if(left<=0){clearInterval(id);id=null;t.classList.add('done');t.textContent='Time';}},1000);
+    });
   });
 
-  addEventListener('keydown', e => {
-    if (e.target.closest && e.target.closest('button') && (e.key===' '||e.key==='Enter')) return;
-    const k = e.key.toLowerCase();
-    if (['arrowright','pagedown',' ','enter'].includes(e.key.toLowerCase()) || k==='arrowright'){ e.preventDefault(); next(); }
-    else if (['arrowleft','pageup','backspace'].includes(k)){ e.preventDefault(); prev(); }
-    else if (k==='n'){ notesEl.hidden = !notesEl.hidden; }
-    else if (k==='f'){ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); }
-    else if (k==='s'){ short = !short; if (!visible(i)) move(1); else show(i,false); }
-    else if (['a','b','c'].includes(k)){
-      const o = slides[i].querySelectorAll('.opt')[k.charCodeAt(0)-97];
-      if (o) o.click();
+  document.getElementById('breakSeal').addEventListener('click',()=>{
+    document.getElementById('decreeLetter').textContent=decree[0];
+    document.getElementById('seal').classList.add('flipped');
+    if(GL){const v=GL.view(document.getElementById('sealGL')); if(v) v.break();}
+    setTimeout(()=>{document.getElementById('decreeOut').textContent=decree;document.getElementById('decreeWrap').hidden=false;},reduce?0:900);
+    document.getElementById('breakSeal').hidden=true;
+  });
+
+  addEventListener('keydown',e=>{
+    if(e.target.tagName==='INPUT'){
+      if(['Enter','Escape','ArrowRight','ArrowLeft','PageDown','PageUp'].includes(e.key)) e.target.blur();
+      if(!['ArrowRight','ArrowLeft','PageDown','PageUp'].includes(e.key)) return;
     }
+    const k=e.key.toLowerCase(), s=slides[i];
+    if(['arrowright','pagedown',' ','enter','arrowdown'].includes(k)){e.preventDefault();next();}
+    else if(['arrowleft','pageup','backspace','arrowup'].includes(k)){e.preventDefault();prev();}
+    else if(k==='e'){const x=s.querySelector('.explain'); if(x){x.classList.toggle('open');document.body.classList.toggle('explaining',x.classList.contains('open'));}}
+    else if(k==='t'){const tm=s.querySelector('.timer'); if(tm) tm.click();}
+    else if(k==='f') try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.().catch(()=>{});}catch(_){}
+    else if(s.dataset.poll&&(e.code==='Digit1'||e.code==='Digit2')){
+      const o=e.code==='Digit1'?'a':'b'; polls[s.dataset.poll][o]=Math.max(0,polls[s.dataset.poll][o]+(e.shiftKey?-1:1)); renderPoll(s);
+    }
+    else if(s.dataset.poll&&k==='w') reveal(s);
+    else if(['a','b','c'].includes(k)){const o=s.querySelectorAll('.opt')[k.charCodeAt(0)-97]; if(o) o.click();}
   });
 
-  // Start (supports #n deep links while rehearsing)
-  const start = Math.max(0, Math.min(slides.length-1, (parseInt(location.hash.slice(1))||1)-1));
-  slides.forEach(s=>s.classList.remove('active'));
-  i = start; lastYear = slides[start].dataset.year || null;
-  show(start, false);
+  let h=1;try{h=parseInt(location.hash.slice(1))||1;}catch(_){}
+  document.addEventListener('click',e=>{const b=e.target.closest('button'); if(b) setTimeout(()=>b.blur(),0);});
+  document.querySelectorAll('.why-btn').forEach(b=>b.addEventListener('click',()=>{const x=b.parentElement.querySelector('.explain');x.classList.toggle('open');document.body.classList.toggle('explaining',x.classList.contains('open'));}));
+  document.querySelectorAll('.explain').forEach(x=>x.addEventListener('click',()=>{x.classList.remove('open');document.body.classList.remove('explaining');}));
+  document.getElementById('navNext').addEventListener('click',next);
+  document.getElementById('navPrev').addEventListener('click',prev);
+  function bootGL(){ if(GL) return; try{GL=makeGL(); window.__GL=GL;}catch(err){GL=null;console.warn(err);}
+    if(GL){ GL.slide(slides[i]); syncSteps(); slides.filter(x=>x.dataset.poll).forEach(renderPoll); } }
+  Promise.race([document.fonts?document.fonts.ready:Promise.resolve(),new Promise(r=>setTimeout(r,1500))]).then(bootGL);
+
+  const start=Math.max(0,Math.min(slides.length-1,h-1));
+  i=start; lastYear=slides[start].dataset.year||null; show(start,0);
 })();
 </script>
 </body>
